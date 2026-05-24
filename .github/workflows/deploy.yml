@@ -75,22 +75,15 @@ jobs:
             pm2 save
             sudo env PATH=$PATH:/usr/bin pm2 startup systemd -u $USER --hp $HOME 2>/dev/null || true
 
-            # --- Nginx: injetar location blocks via script Python do repo ---
-            echo "=== sites-enabled ==="
-            ls -la /etc/nginx/sites-enabled/
+            # --- Nginx ---
+            # O config wnrtecnologia ja tem os location blocks do WnrMidia.
+            # O default estava corrompido com proxy_pass fora de contexto.
+            # Remove o default do sites-enabled (wnrtecnologia ja inclui o IP na server_name).
+            sudo rm -f /etc/nginx/sites-enabled/default
+            sudo rm -f /etc/nginx/sites-enabled/wnrmidia
+            sudo rm -f /etc/nginx/sites-available/wnrmidia
 
-            echo "=== configs com listen 80 ==="
-            grep -rl "listen 80" /etc/nginx/sites-enabled/ 2>/dev/null || echo "nenhum"
-
-            sudo python3 "$APP_DIR/scripts/nginx_inject.py"
-
-            echo "=== nginx test ==="
-            sudo nginx -t
-
-            echo "=== locations wnrmidia na config efetiva ==="
-            sudo nginx -T 2>/dev/null | grep -A2 "wnrmidia" || echo "nao encontrado"
-
-            sudo systemctl reload nginx
+            sudo nginx -t && sudo systemctl reload nginx
 
             echo ""
             echo "Deploy concluido!"
