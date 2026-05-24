@@ -1,0 +1,29 @@
+name: Criar usuario na VM
+
+on:
+  workflow_dispatch:
+    inputs:
+      email:
+        description: 'Email do usuario'
+        required: true
+      password:
+        description: 'Senha'
+        required: true
+      role:
+        description: 'Perfil (admin ou editor)'
+        required: true
+        default: 'admin'
+
+jobs:
+  create-user:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Criar usuario via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.VM_HOST }}
+          username: ${{ secrets.VM_USER }}
+          password: ${{ secrets.VM_PASSWORD }}
+          port: 22
+          script: |
+            node /var/www/wnrmidia/scripts/create-user.js "${{ github.event.inputs.email }}" "${{ github.event.inputs.password }}" "${{ github.event.inputs.role }}"
