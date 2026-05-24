@@ -69,8 +69,8 @@ jobs:
             npm install
 
             cat > .env.production << ENVEOF
-            REACT_APP_API_URL=http://wnrtecnologia.com.br/wnrmidia/api
-            REACT_APP_SOCKET_URL=http://wnrtecnologia.com.br
+            REACT_APP_API_URL=http://4.228.218.45/wnrmidia/api
+            REACT_APP_SOCKET_URL=http://4.228.218.45
             ENVEOF
 
             npm run build
@@ -176,6 +176,6 @@ jobs:
 
             echo ""
             echo "Deploy concluido!"
-            echo "  Admin: http://wnrtecnologia.com.br/wnrmidia"
-            echo "  API  : http://wnrtecnologia.com.br/wnrmidia/api"
+            echo "  Admin: http://4.228.218.45/wnrmidia"
+            echo "  API  : http://4.228.218.45/wnrmidia/api"
             pm2 status
