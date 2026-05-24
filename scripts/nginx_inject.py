@@ -1,58 +1,97 @@
 #!/usr/bin/env python3
 """
 Configura nginx para WnrMidia sem tocar no site existente.
-- Limpa configuracoes ruins de deploys anteriores
-- Injeta location blocks no wnrtecnologia
+- Remove blocos wnrmidia anteriores (por comentario ou por path na URL)
+- Reinjeta location blocks atualizados no wnrtecnologia
 """
-import subprocess, os, sys
+import subprocess, os, sys, re
 
 LOCATION_BLOCK = """\
 
     # WnrMidia admin panel e API
-    location ^~ /wnrmidia/app/api/ {
-        proxy_pass http://localhost:5000/api/;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        client_max_body_size 500M;
-    }
-    location ^~ /wnrmidia/app/uploads/ {
-        proxy_pass http://localhost:5000/uploads/;
-        client_max_body_size 500M;
-    }
-    location ^~ /wnrmidia/app/ {
-        alias /var/www/wnrmidia/admin-panel/build/;
-        index index.html;
-        try_files $uri $uri/ @wnrmidia_spa;
-    }
-    location @wnrmidia_spa {
-        root /var/www/wnrmidia/admin-panel/build;
-        rewrite ^ /index.html break;
-    }
     location = /wnrmidia/app {
         return 301 /wnrmidia/app/;
     }
+    location ^~ /wnrmidia/app/api/ {
+        rewrite ^/wnrmidia/app/api/(.*)$ /api/$1 break;
+        proxy_pass http://127.0.0.1:5000;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        client_max_body_size 500M;
+    }
+    location ^~ /wnrmidia/app/uploads/ {
+        rewrite ^/wnrmidia/app/uploads/(.*)$ /uploads/$1 break;
+        proxy_pass http://127.0.0.1:5000;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        client_max_body_size 500M;
+    }
+    location ^~ /wnrmidia/app/socket.io/ {
+        rewrite ^/wnrmidia/app/socket.io/(.*)$ /socket.io/$1 break;
+        proxy_pass http://127.0.0.1:5000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+    location ^~ /wnrmidia/app/ {
+        alias /var/www/wnrmidia/admin-panel/build/;
+        try_files $uri $uri/ /wnrmidia-app-index.html;
+    }
+    location = /wnrmidia-app-index.html {
+        internal;
+        alias /var/www/wnrmidia/admin-panel/build/index.html;
+    }
 """
 
-def remove_wnrmidia_lines(content):
-    """Remove qualquer bloco wnrmidia injetado anteriormente."""
+def remove_wnrmidia_blocks(content):
+    """
+    Remove qualquer bloco wnrmidia: detecta por comentario marcador OU
+    por 'location' cujo path contem 'wnrmidia'.
+    """
     lines = content.split('\n')
     result = []
     skip = False
     depth = 0
+
     for line in lines:
-        if '# WnrMidia admin panel' in line:
-            skip = True
-            depth = 0
-            continue
-        if skip:
+        stripped = line.strip()
+
+        if not skip:
+            # Detectar inicio de bloco wnrmidia:
+            # - comentario marcador antigo
+            # - location cujo path contem 'wnrmidia'
+            is_marker = '# WnrMidia' in line
+            is_location = bool(re.match(r'location\b[^{]*wnrmidia[^{]*\{', stripped))
+
+            if is_marker or is_location:
+                skip = True
+                depth = line.count('{') - line.count('}')
+                # bloco de uma linha (ex: location = /x { return ...; })
+                if depth <= 0:
+                    skip = False
+                continue
+
+            # Remover linhas soltas de injecoes antigas
+            if 'wnrmidia_spa' in line or '@wnrmidia_spa' in line:
+                continue
+
+            result.append(line)
+        else:
             depth += line.count('{') - line.count('}')
-            if depth <= 0 and line.strip() == '}':
+            if depth <= 0:
                 skip = False
-            continue
-        # Remover linhas soltas com wnrmidia que ficaram de injecoes anteriores
-        if 'wnrmidia_spa' in line or '@wnrmidia' in line:
-            continue
-        result.append(line)
+            # linha de fechamento do bloco nao vai para result
+
     return '\n'.join(result)
 
 # ---------------------------------------------------------------
@@ -60,22 +99,10 @@ def remove_wnrmidia_lines(content):
 # ---------------------------------------------------------------
 print("=== Limpando deploys anteriores ===")
 
-# Remover config wnrmidia na porta 8080
 for path in ['/etc/nginx/sites-enabled/wnrmidia', '/etc/nginx/sites-available/wnrmidia']:
     if os.path.exists(path):
         os.remove(path)
         print(f"Removido: {path}")
-
-# Limpar injecao ruim do default
-default_path = '/etc/nginx/sites-available/default'
-if os.path.isfile(default_path):
-    with open(default_path) as f:
-        content = f.read()
-    if 'wnrmidia' in content.lower():
-        clean = remove_wnrmidia_lines(content)
-        with open(default_path, 'w') as f:
-            f.write(clean)
-        print("Config default limpo.")
 
 # ---------------------------------------------------------------
 # 2. Encontrar o config do site principal
@@ -89,7 +116,6 @@ print("Arquivos em sites-enabled:")
 for f in sorted(os.listdir('/etc/nginx/sites-enabled')):
     print(f"  {f}")
 
-# Tentar wnrtecnologia primeiro (nome conhecido)
 candidates = [
     '/etc/nginx/sites-available/wnrtecnologia',
     '/etc/nginx/sites-enabled/wnrtecnologia',
@@ -100,13 +126,12 @@ for c in candidates:
     real = os.path.realpath(c)
     if os.path.isfile(real) and 'wnrmidia' not in real:
         conf_file = real
-        print(f"Config encontrada por nome: {conf_file}")
+        print(f"Config encontrada: {conf_file}")
         break
 
-# Fallback: varrer sites-available
 if not conf_file:
     for fname in sorted(os.listdir('/etc/nginx/sites-available')):
-        if 'wnrmidia' in fname or fname == 'default':
+        if 'wnrmidia' in fname or fname == 'default' or fname.endswith('.bak'):
             continue
         fpath = os.path.realpath(os.path.join('/etc/nginx/sites-available', fname))
         if os.path.isfile(fpath):
@@ -115,34 +140,26 @@ if not conf_file:
             break
 
 if not conf_file:
-    print("ERRO: nenhum config do site principal encontrado. Mostrando nginx -T:")
-    subprocess.run(['nginx', '-T'])
+    print("ERRO: nenhum config do site principal encontrado.")
     sys.exit(1)
 
 # ---------------------------------------------------------------
-# 3. Ler e mostrar o config encontrado
+# 3. Ler config, remover blocos antigos, reinjetar
 # ---------------------------------------------------------------
 with open(conf_file) as f:
     original = f.read()
 
-print(f"\n=== Conteudo de {conf_file} ===")
-print(original)
-print("=== fim do conteudo ===\n")
-
-# ---------------------------------------------------------------
-# 4. Fazer backup
-# ---------------------------------------------------------------
+# Backup
 backup_path = conf_file + '.wnrmidia.bak'
 with open(backup_path, 'w') as f:
     f.write(original)
 print(f"Backup criado: {backup_path}")
 
-# ---------------------------------------------------------------
-# 5. Remover injecao anterior e reinjetar
-# ---------------------------------------------------------------
-content = remove_wnrmidia_lines(original)
+# Remover blocos anteriores e reinjetar
+cleaned = remove_wnrmidia_blocks(original)
 
-lines = content.split('\n')
+# Encontrar posicao de insercao: antes do } que fecha o server block
+lines = cleaned.split('\n')
 brace_depth = 0
 in_server = False
 insert_at = None
@@ -173,7 +190,7 @@ with open(conf_file, 'w') as f:
     f.write(new_content)
 
 # ---------------------------------------------------------------
-# 6. Testar nginx; restaurar backup se falhar
+# 4. Testar nginx; restaurar backup se falhar
 # ---------------------------------------------------------------
 result = subprocess.run(['nginx', '-t'], capture_output=True, text=True)
 if result.returncode != 0:
@@ -185,4 +202,4 @@ if result.returncode != 0:
     subprocess.run(['nginx', '-t'])
     sys.exit(1)
 
-print("nginx -t OK!")
+print("nginx -t OK! Injecao concluida.")
