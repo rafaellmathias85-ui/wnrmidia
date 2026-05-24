@@ -29,7 +29,7 @@
       "react-app"
     ]
   },
-  "homepage": "/wnrmidia",
+  "homepage": "/wnrmidia/app",
   "browserslist": {
     "production": [
       ">0.2%",

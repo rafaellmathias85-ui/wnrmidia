@@ -69,7 +69,7 @@ jobs:
             npm install
 
             cat > .env.production << ENVEOF
-            REACT_APP_API_URL=http://4.228.218.45/wnrmidia/api
+            REACT_APP_API_URL=http://4.228.218.45/wnrmidia/app/app/api
             REACT_APP_SOCKET_URL=http://4.228.218.45
             ENVEOF
 
@@ -104,7 +104,7 @@ jobs:
 
             sudo tee /etc/nginx/snippets/wnrmidia.conf > /dev/null << 'NGINXEOF'
             # WnrMidia API proxy
-            location ^~ /wnrmidia/api/ {
+            location ^~ /wnrmidia/app/api/ {
                 proxy_pass http://localhost:5000/api/;
                 proxy_set_header Host $host;
                 proxy_set_header X-Real-IP $remote_addr;
@@ -113,13 +113,13 @@ jobs:
             }
 
             # WnrMidia uploads proxy
-            location ^~ /wnrmidia/uploads/ {
+            location ^~ /wnrmidia/app/uploads/ {
                 proxy_pass http://localhost:5000/uploads/;
                 client_max_body_size 500M;
             }
 
             # WnrMidia socket.io proxy
-            location ^~ /wnrmidia/socket.io/ {
+            location ^~ /wnrmidia/app/socket.io/ {
                 proxy_pass http://localhost:5000/socket.io/;
                 proxy_http_version 1.1;
                 proxy_set_header Upgrade $http_upgrade;
@@ -128,12 +128,12 @@ jobs:
             }
 
             # WnrMidia admin panel (React SPA)
-            location ^~ /wnrmidia/ {
+            location ^~ /wnrmidia/app/ {
                 alias /var/www/wnrmidia/admin-panel/build/;
-                try_files $uri /wnrmidia/index.html;
+                try_files $uri /wnrmidia/app/index.html;
             }
-            location = /wnrmidia {
-                return 301 /wnrmidia/;
+            location = /wnrmidia/app {
+                return 301 /wnrmidia/app/;
             }
             NGINXEOF
 
@@ -176,6 +176,6 @@ jobs:
 
             echo ""
             echo "Deploy concluido!"
-            echo "  Admin: http://4.228.218.45/wnrmidia"
-            echo "  API  : http://4.228.218.45/wnrmidia/api"
+            echo "  Admin: http://4.228.218.45/wnrmidia/app"
+            echo "  API  : http://4.228.218.45/wnrmidia/app/app/api"
             pm2 status
