@@ -83,14 +83,10 @@ jobs:
             sudo env PATH=$PATH:/usr/bin pm2 startup systemd -u $USER --hp $HOME 2>/dev/null || true
 
             # --- Nginx ---
-            # O config wnrtecnologia ja tem os location blocks do WnrMidia.
-            # O default estava corrompido com proxy_pass fora de contexto.
-            # Remove o default do sites-enabled (wnrtecnologia ja inclui o IP na server_name).
-            sudo rm -f /etc/nginx/sites-enabled/default
-            sudo rm -f /etc/nginx/sites-enabled/wnrmidia
-            sudo rm -f /etc/nginx/sites-available/wnrmidia
-
-            sudo nginx -t && sudo systemctl reload nginx
+            # Injeta location blocks do WnrMidia no config do site principal (wnrtecnologia).
+            # O script limpa injecoes anteriores, reinjeta e valida com nginx -t.
+            sudo python3 "$APP_DIR/scripts/nginx_inject.py"
+            sudo systemctl reload nginx
 
             echo ""
             echo "Deploy concluido!"
