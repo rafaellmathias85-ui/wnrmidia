@@ -1,0 +1,57 @@
+{
+  "name": "wnrmidia-player",
+  "version": "1.0.0",
+  "description": "Reprodutor Electron para displays de vídeos rotativos",
+  "main": "public/main.js",
+  "homepage": "./",
+  "scripts": {
+    "react-start": "cross-env BROWSER=none PORT=3001 react-scripts start",
+    "react-build": "react-scripts build",
+    "react-test": "react-scripts test",
+    "react-eject": "react-scripts eject",
+    "electron-start": "electron .",
+    "start": "concurrently \"cross-env BROWSER=none npm run react-start\" \"wait-on http://localhost:3001 && npm run electron-start\"",
+    "build": "npm run react-build && electron-builder",
+    "dev": "concurrently \"npm run react-start\" \"wait-on http://localhost:3001 && electron .\"",
+    "eject": "react-scripts eject"
+  },
+  "build": {
+    "appId": "com.wnrmidia.player",
+    "productName": "WnrMidia Player",
+    "files": [
+      "build/**/*",
+      "public/main.js",
+      "node_modules/**/*"
+    ],
+    "directories": {
+      "buildResources": "public"
+    }
+  },
+  "dependencies": {
+    "axios": "^1.6.5",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-scripts": "5.0.1",
+    "socket.io-client": "^4.7.2",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "cross-env": "^7.0.3",
+    "electron": "^27.0.0",
+    "electron-builder": "^24.6.4",
+"wait-on": "^7.0.1"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

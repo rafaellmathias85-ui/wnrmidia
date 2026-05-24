@@ -1,0 +1,21 @@
+.settings-page h1 {
+  margin-bottom: 30px;
+}
+
+.settings-section {
+  background: white;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.settings-section h2 {
+  margin: 0 0 15px 0;
+  color: #667eea;
+}
+
+.settings-section p {
+  margin: 8px 0;
+  color: #666;
+}

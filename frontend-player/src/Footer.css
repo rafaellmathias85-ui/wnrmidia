@@ -1,0 +1,72 @@
+.footer-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 52px;
+  background: rgba(0, 0, 0, 0.88);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  z-index: 100;
+  color: #fff;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.footer-clock {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #fff;
+}
+
+.footer-sep {
+  color: rgba(255, 255, 255, 0.25);
+  font-size: 18px;
+}
+
+.footer-date {
+  font-size: 14px;
+  color: #ccc;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.footer-weather {
+  font-size: 15px;
+  color: #fff;
+}
+
+.footer-tomorrow {
+  font-size: 14px;
+  color: #bbb;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.footer-dollar {
+  font-size: 14px;
+  font-weight: 600;
+  color: #7affa0;
+}
+
+.footer-right {
+  display: flex;
+  align-items: center;
+}
+
+.footer-brand {
+  font-size: 18px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #fff;
+}
