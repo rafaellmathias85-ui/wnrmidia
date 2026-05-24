@@ -3,28 +3,32 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--bg-deep);
 }
 
 .login-box {
-  background: white;
+  background: var(--bg-card);
   padding: 40px;
-  border-radius: 10px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
   width: 100%;
   max-width: 400px;
   text-align: center;
 }
 
 .login-box h1 {
-  margin-bottom: 10px;
-  color: #667eea;
+  margin-bottom: 6px;
+  color: var(--accent);
+  font-size: 28px;
+  letter-spacing: 2px;
 }
 
 .login-box h2 {
   margin-bottom: 30px;
-  color: #666;
-  font-size: 18px;
+  color: var(--text-secondary);
+  font-size: 15px;
+  font-weight: 400;
 }
 
 .login-box form {
@@ -34,45 +38,72 @@
 
 .login-box input {
   padding: 12px 15px;
-  margin: 10px 0;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  font-size: 16px;
+  margin: 8px 0;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 15px;
+  color: var(--text-primary);
+}
+
+.login-box input::placeholder {
+  color: var(--text-secondary);
 }
 
 .login-box input:focus {
   outline: none;
-  border-color: #667eea;
-  box-shadow: 0 0 5px rgba(102, 126, 234, 0.3);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-muted);
 }
 
 .login-box button {
-  padding: 12px;
+  padding: 13px;
   margin-top: 20px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  background: var(--accent);
+  color: #0C0C14;
   border: none;
-  border-radius: 5px;
-  font-size: 16px;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 700;
   cursor: pointer;
-  transition: transform 0.2s;
+  transition: background 0.2s, transform 0.15s;
+  letter-spacing: 0.5px;
 }
 
 .login-box button:hover {
-  transform: translateY(-2px);
+  background: var(--accent-dark);
+  transform: translateY(-1px);
 }
 
 .login-box button:disabled {
-  opacity: 0.7;
+  opacity: 0.6;
   cursor: not-allowed;
+  transform: none;
 }
 
 .login-box p {
   margin-top: 20px;
-  color: #666;
+  color: var(--text-secondary);
+  font-size: 14px;
 }
 
 .login-box a {
-  color: #667eea;
+  color: var(--accent);
   text-decoration: none;
+}
+
+.link-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--accent);
+  font-size: 14px;
+  cursor: pointer;
+  font-family: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.link-btn:hover {
+  color: var(--accent-dark);
 }

@@ -1,12 +1,14 @@
 .displays-page h1 {
   margin-bottom: 30px;
+  color: var(--text-primary);
 }
 
 .create-display {
-  background: white;
+  background: var(--bg-card);
   padding: 25px;
   border-radius: 10px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
   margin-bottom: 30px;
 }
 
@@ -19,9 +21,19 @@
 .create-display input,
 .create-display select {
   padding: 12px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: 6px;
   font-size: 14px;
+  color: var(--text-primary);
+}
+
+.create-display input::placeholder {
+  color: var(--text-secondary);
+}
+
+.create-display select option {
+  background: var(--bg-card);
 }
 
 .displays-grid {
@@ -31,65 +43,69 @@
 }
 
 .display-card {
-  background: white;
+  background: var(--bg-card);
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
   position: relative;
-  border-left: 5px solid #999;
+  border-left: 4px solid rgba(156, 163, 175, 0.3);
 }
 
 .display-card.status-online {
-  border-left-color: #4caf50;
+  border-left-color: var(--online);
 }
 
 .display-card.status-offline {
-  border-left-color: #f44336;
+  border-left-color: var(--offline);
 }
 
 .status-indicator {
   position: absolute;
   top: 15px;
   right: 15px;
-  width: 12px;
-  height: 12px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
-  background: #999;
+  background: rgba(156, 163, 175, 0.4);
 }
 
 .display-card.status-online .status-indicator {
-  background: #4caf50;
+  background: var(--online);
+  box-shadow: 0 0 6px var(--online);
 }
 
 .display-card.status-offline .status-indicator {
-  background: #f44336;
+  background: var(--offline);
 }
 
 .display-card h3 {
   margin: 0 0 10px 0;
+  color: var(--text-primary);
 }
 
 .display-card .type {
-  color: #667eea;
-  font-weight: bold;
+  color: var(--accent);
+  font-weight: 600;
   margin: 5px 0;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .display-card .location {
-  color: #999;
-  font-size: 14px;
+  color: var(--text-secondary);
+  font-size: 13px;
   margin: 5px 0;
 }
 
 .display-card .status {
   margin: 10px 0;
-  font-weight: bold;
+  font-weight: 600;
+  color: var(--text-primary);
 }
 
 .display-card .current-playlist {
   font-size: 13px;
-  color: #667eea;
+  color: var(--accent);
   margin: 8px 0 4px 0;
   font-weight: 500;
   white-space: nowrap;
@@ -98,86 +114,95 @@
 }
 
 .display-card .last-sync {
-  color: #bbb;
+  color: var(--text-secondary);
   font-size: 11px;
   margin: 4px 0;
 }
 
 .btn-primary {
   padding: 10px 20px;
-  background: #667eea;
-  color: white;
+  background: var(--accent);
+  color: #0C0C14;
   border: none;
-  border-radius: 5px;
+  border-radius: 6px;
   cursor: pointer;
   font-size: 14px;
+  font-weight: 600;
+  transition: background 0.2s;
 }
 
 .btn-primary:hover {
-  background: #5a6fd6;
+  background: var(--accent-dark);
 }
 
 .display-card .btn-assign {
   width: 100%;
   padding: 10px;
-  background: #667eea;
-  color: white;
+  background: var(--accent);
+  color: #0C0C14;
   border: none;
-  border-radius: 5px;
+  border-radius: 6px;
   cursor: pointer;
   margin-top: 15px;
   font-size: 14px;
+  font-weight: 600;
+  transition: background 0.2s;
 }
 
 .display-card .btn-assign:hover {
-  background: #5a6fd6;
+  background: var(--accent-dark);
 }
 
 .display-card .btn-delete {
   width: 100%;
   padding: 10px;
-  background: #ff6b6b;
-  color: white;
-  border: none;
-  border-radius: 5px;
+  background: rgba(248, 113, 113, 0.15);
+  color: var(--offline);
+  border: 1px solid rgba(248, 113, 113, 0.3);
+  border-radius: 6px;
   cursor: pointer;
   margin-top: 8px;
+  font-size: 14px;
+  transition: background 0.2s;
 }
 
 .display-card .btn-delete:hover {
-  background: #ff5252;
+  background: rgba(248, 113, 113, 0.25);
 }
 
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.7);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
+  backdrop-filter: blur(4px);
 }
 
 .modal {
-  background: white;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
   border-radius: 12px;
   padding: 30px;
   width: 400px;
   max-width: 90vw;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
 }
 
 .modal h2 {
   margin: 0 0 10px 0;
+  color: var(--text-primary);
 }
 
 .modal-display-name {
-  color: #666;
+  color: var(--text-secondary);
   margin-bottom: 20px;
 }
 
 .modal-empty {
-  color: #999;
+  color: var(--text-secondary);
   font-style: italic;
   margin-bottom: 20px;
 }
@@ -185,10 +210,16 @@
 .modal-select {
   width: 100%;
   padding: 12px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: 6px;
   font-size: 14px;
+  color: var(--text-primary);
   margin-bottom: 20px;
+}
+
+.modal-select option {
+  background: var(--bg-card);
 }
 
 .modal-buttons {
@@ -199,39 +230,51 @@
 .modal-buttons button {
   flex: 1;
   padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
+  background: var(--accent);
+  color: #0C0C14;
+  border: none;
+  border-radius: 6px;
   cursor: pointer;
   font-size: 14px;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.modal-buttons button:hover {
+  background: var(--accent-dark);
 }
 
 .modal-buttons button:last-child {
-  background: white;
+  background: var(--bg-surface);
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
 }
 
 .modal-buttons button:last-child:hover {
-  background: #f5f5f5;
+  background: var(--bg-input);
+  color: var(--text-primary);
 }
 
 .display-orientation {
   font-size: 13px;
-  color: #555;
+  color: var(--text-secondary);
   margin: 4px 0 8px 0;
 }
 
 .btn-orientation {
   width: 100%;
   padding: 8px;
-  background: white;
-  color: #555;
-  border: 1px solid #ccc;
+  background: var(--bg-surface);
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
   border-radius: 5px;
   cursor: pointer;
   font-size: 13px;
   margin-bottom: 6px;
-  transition: background 0.2s;
+  transition: background 0.2s, color 0.2s;
 }
 
 .btn-orientation:hover {
-  background: #f0f0f0;
+  background: var(--accent-muted);
+  color: var(--accent);
 }

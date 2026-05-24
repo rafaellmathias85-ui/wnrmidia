@@ -1,3 +1,18 @@
+:root {
+  --bg-deep:       #0C0C14;
+  --bg-surface:    #13131F;
+  --bg-card:       #1A1A2C;
+  --bg-input:      #0F0F1A;
+  --accent:        #F0B429;
+  --accent-dark:   #C89620;
+  --accent-muted:  rgba(240, 180, 41, 0.12);
+  --text-primary:  #FFFFFF;
+  --text-secondary:#9CA3AF;
+  --border:        rgba(255, 255, 255, 0.08);
+  --online:        #4ade80;
+  --offline:       #f87171;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -10,7 +25,8 @@ body {
     'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: #f5f5f5;
+  background: var(--bg-deep);
+  color: var(--text-primary);
 }
 
 code {

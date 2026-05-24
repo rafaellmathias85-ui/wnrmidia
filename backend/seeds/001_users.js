@@ -18,11 +18,18 @@ const DEFAULT_USERS = [
 exports.seed = async function(knex) {
   for (const user of DEFAULT_USERS) {
     const existing = await knex('users').where('email', user.email).first();
-    if (!existing) {
+    const password_hash = bcrypt.hashSync(user.password, 10);
+    if (existing) {
+      await knex('users').where('email', user.email).update({
+        password_hash,
+        role: user.role,
+        updated_at: new Date().toISOString(),
+      });
+    } else {
       await knex('users').insert({
         email: user.email,
         name: user.name,
-        password_hash: bcrypt.hashSync(user.password, 10),
+        password_hash,
         role: user.role,
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
