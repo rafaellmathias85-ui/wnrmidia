@@ -55,6 +55,13 @@ jobs:
               printf "NODE_ENV=development\nPORT=5000\nJWT_SECRET=%s\nJWT_EXPIRE=7d\nVIDEO_UPLOAD_PATH=./uploads/videos\nMAX_VIDEO_SIZE=500000000\n" "$(openssl rand -hex 32)" > .env
             fi
 
+            # Garantir que JWT_SECRET tem valor (corrige deploys anteriores com valor vazio)
+            if ! grep -qE "^JWT_SECRET=.+" .env; then
+              sed -i '/^JWT_SECRET=/d' .env
+              echo "JWT_SECRET=$(openssl rand -hex 32)" >> .env
+              echo "JWT_SECRET corrigido no .env"
+            fi
+
             mkdir -p uploads/videos
             npx knex migrate:latest
             npx knex seed:run --specific=001_users.js 2>/dev/null || true
