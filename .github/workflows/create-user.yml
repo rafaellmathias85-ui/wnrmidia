@@ -26,4 +26,4 @@ jobs:
           password: ${{ secrets.VM_PASSWORD }}
           port: 22
           script: |
-            node /var/www/wnrmidia/scripts/create-user.js "${{ github.event.inputs.email }}" "${{ github.event.inputs.password }}" "${{ github.event.inputs.role }}"
+            cd /var/www/wnrmidia/backend && node ../scripts/create-user.js "${{ github.event.inputs.email }}" "${{ github.event.inputs.password }}" "${{ github.event.inputs.role }}"

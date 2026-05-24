@@ -1,11 +1,9 @@
 #!/usr/bin/env node
-// Uso: node create-user.js <email> <senha> <role>
-// Exemplo: node create-user.js rafaellmathias85@gmail.com Winner@123 admin
+// Uso: node /var/www/wnrmidia/scripts/create-user.js <email> <senha> <role>
+// Deve ser executado de dentro do diretorio backend:
+//   cd /var/www/wnrmidia/backend && node ../scripts/create-user.js ...
 
 const bcrypt = require('bcryptjs');
-const path = require('path');
-
-process.chdir(path.join(__dirname, '../backend'));
 const db = require('./src/config/database');
 
 const [,, email, password, role = 'admin'] = process.argv;
@@ -19,9 +17,8 @@ async function run() {
   try {
     const existing = await db('users').where('email', email).first();
     if (existing) {
-      const hash = bcrypt.hashSync(password, 10);
       await db('users').where('email', email).update({
-        password_hash: hash,
+        password_hash: bcrypt.hashSync(password, 10),
         role,
         updated_at: new Date().toISOString()
       });

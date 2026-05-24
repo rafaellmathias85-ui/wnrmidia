@@ -108,9 +108,6 @@ const Login = ({ onLoginSuccess }) => {
             {loading ? 'Carregando...' : 'Entrar'}
           </button>
         </form>
-        <p>
-          Não tem conta? <a href="#signup">Registre-se aqui</a>
-        </p>
       </div>
     </div>
   );
