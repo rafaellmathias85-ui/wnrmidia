@@ -1,23 +1,24 @@
-.playlists-page h1 { margin-bottom: 30px; color: var(--text-primary); }
+.playlists-page h1 { margin-bottom: 28px; color: var(--text-primary); }
 
 /* Create form */
 .create-playlist {
-  background: var(--bg-card);
-  padding: 25px;
-  border-radius: 10px;
+  background: linear-gradient(145deg, rgba(16, 22, 37, 0.98), rgba(9, 14, 27, 0.98));
+  padding: 28px;
+  border-radius: 8px;
   border: 1px solid var(--border);
-  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  box-shadow: var(--shadow);
   margin-bottom: 30px;
 }
 .create-playlist form { display: flex; flex-direction: column; gap: 15px; }
 .create-playlist input,
 .create-playlist textarea {
-  padding: 12px;
+  padding: 13px 14px;
   background: var(--bg-input);
-  border: 1px solid var(--border);
-  border-radius: 6px;
+  border: 1px solid var(--border-soft);
+  border-radius: 8px;
   font-size: 14px;
   color: var(--text-primary);
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
 }
 .create-playlist input::placeholder,
 .create-playlist textarea::placeholder { color: var(--text-secondary); }
@@ -26,19 +27,20 @@
   outline: none;
   border-color: var(--accent);
   box-shadow: 0 0 0 3px var(--accent-muted);
+  background: #0b1120;
 }
 
 .form-buttons { display: flex; gap: 10px; }
 .form-buttons button {
   flex: 1; padding: 12px; border: none;
-  border-radius: 6px; cursor: pointer; font-weight: 700; font-size: 14px;
+  border-radius: 8px; cursor: pointer; font-weight: 800; font-size: 14px;
 }
 .form-buttons button[type="submit"] {
-  background: var(--accent);
-  color: #0C0C14;
-  transition: background 0.2s;
+  background: linear-gradient(135deg, var(--accent), var(--accent-soft));
+  color: #07101f;
+  transition: filter 0.2s, transform 0.2s;
 }
-.form-buttons button[type="submit"]:hover { background: var(--accent-dark); }
+.form-buttons button[type="submit"]:hover { filter: brightness(0.94); transform: translateY(-1px); }
 .form-buttons button[type="button"] {
   background: var(--bg-surface);
   color: var(--text-secondary);
@@ -48,13 +50,13 @@
 
 .btn-purple {
   padding: 12px 24px;
-  background: var(--accent);
-  color: #0C0C14;
-  border: none; border-radius: 6px;
-  cursor: pointer; font-size: 14px; font-weight: 700;
-  transition: background 0.2s;
+  background: linear-gradient(135deg, var(--accent), var(--accent-soft));
+  color: #07101f;
+  border: none; border-radius: 8px;
+  cursor: pointer; font-size: 14px; font-weight: 800;
+  transition: filter 0.2s, transform 0.2s;
 }
-.btn-purple:hover { background: var(--accent-dark); }
+.btn-purple:hover { filter: brightness(0.94); transform: translateY(-1px); }
 
 /* Playlist cards */
 .playlists-grid {
@@ -64,25 +66,26 @@
   margin-bottom: 30px;
 }
 .playlist-card {
-  background: var(--bg-card); padding: 20px;
-  border-radius: 10px; border: 1px solid var(--border);
-  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-  border-top: 2px solid transparent; transition: border-color 0.2s;
+  background: linear-gradient(145deg, rgba(16, 22, 37, 0.98), rgba(9, 14, 27, 0.98)); padding: 22px;
+  border-radius: 8px; border: 1px solid var(--border-soft);
+  box-shadow: 0 16px 44px rgba(0,0,0,0.28);
+  border-top: 2px solid transparent; transition: border-color 0.2s, transform 0.2s;
 }
-.playlist-card.selected { border-top-color: var(--accent); }
+.playlist-card:hover { transform: translateY(-2px); border-color: rgba(244, 196, 0, 0.24); }
+.playlist-card.selected { border-top-color: var(--accent); border-color: var(--border); }
 .playlist-card h3 { margin: 0 0 8px 0; color: var(--text-primary); }
 .playlist-card p { color: var(--text-secondary); font-size: 13px; margin: 0 0 15px 0; }
 .playlist-card button {
   width: 100%; padding: 10px;
   background: var(--bg-surface); color: var(--text-secondary);
   border: 1px solid var(--border);
-  border-radius: 6px; cursor: pointer; font-size: 14px;
+  border-radius: 8px; cursor: pointer; font-size: 14px;
   transition: background 0.2s, color 0.2s;
 }
 .playlist-card button:hover { background: var(--accent-muted); color: var(--accent); }
 .playlist-card button.active {
   background: var(--accent);
-  color: #0C0C14;
+  color: #07101f;
   border-color: var(--accent);
   font-weight: 700;
 }
@@ -90,7 +93,7 @@
   width: 100%; padding: 8px;
   background: rgba(248, 113, 113, 0.1);
   border: 1px solid rgba(248, 113, 113, 0.25);
-  border-radius: 5px; cursor: pointer;
+  border-radius: 7px; cursor: pointer;
   color: var(--offline); font-size: 13px; margin-top: 6px;
   transition: background 0.2s;
 }
@@ -108,9 +111,9 @@
 }
 
 .editor-left, .editor-right {
-  background: var(--bg-card); border-radius: 10px;
+  background: linear-gradient(145deg, rgba(16, 22, 37, 0.98), rgba(9, 14, 27, 0.98)); border-radius: 8px;
   border: 1px solid var(--border);
-  box-shadow: 0 4px 20px rgba(0,0,0,0.3); padding: 24px;
+  box-shadow: var(--shadow); padding: 26px;
 }
 .editor-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
 .editor-header h2 { margin: 0; color: var(--text-primary); }
@@ -129,15 +132,15 @@
 .playlist-video-list { display: flex; flex-direction: column; gap: 6px; }
 .playlist-video-item {
   display: flex; align-items: center; gap: 10px;
-  padding: 10px 12px; border-radius: 6px;
+  padding: 11px 12px; border-radius: 8px;
   background: var(--bg-surface); cursor: pointer;
-  border: 1px solid var(--border); transition: all 0.15s;
+  border: 1px solid var(--border-soft); transition: all 0.15s;
 }
 .playlist-video-item:hover { border-color: var(--accent); background: var(--accent-muted); }
 .playlist-video-item.previewing { border-color: var(--accent); background: var(--accent-muted); }
 .order-badge {
   width: 24px; height: 24px; border-radius: 50%;
-  background: var(--accent); color: #0C0C14;
+  background: linear-gradient(135deg, var(--accent), var(--accent-soft)); color: #07101f;
   font-size: 12px; font-weight: 700;
   display: flex; align-items: center; justify-content: center; flex-shrink: 0;
 }
@@ -147,7 +150,7 @@
 .btn-remove {
   background: none; border: none; color: var(--text-secondary);
   cursor: pointer; font-size: 16px; flex-shrink: 0; padding: 4px 6px;
-  border-radius: 4px; line-height: 1; transition: background 0.15s, color 0.15s;
+  border-radius: 6px; line-height: 1; transition: background 0.15s, color 0.15s;
 }
 .btn-remove:hover { background: rgba(248, 113, 113, 0.15); color: var(--offline); }
 
@@ -156,12 +159,12 @@
 .available-item {
   display: flex; align-items: center; justify-content: space-between;
   padding: 10px 12px; background: var(--bg-surface);
-  border: 1px solid var(--border); border-radius: 6px; gap: 10px;
+  border: 1px solid var(--border-soft); border-radius: 8px; gap: 10px;
   color: var(--text-primary);
 }
 .btn-add {
   background: var(--accent);
-  color: #0C0C14; border: none; border-radius: 5px;
+  color: #07101f; border: none; border-radius: 7px;
   padding: 6px 12px; cursor: pointer; font-size: 13px;
   font-weight: 600; white-space: nowrap; transition: background 0.2s;
 }
@@ -171,7 +174,7 @@
 .preview-empty {
   text-align: center; padding: 40px 20px;
   color: var(--text-secondary); background: var(--bg-surface);
-  border: 1px solid var(--border); border-radius: 8px;
+  border: 1px solid var(--border-soft); border-radius: 8px;
 }
 .preview-container { display: flex; flex-direction: column; gap: 12px; }
 .preview-info {
@@ -185,7 +188,7 @@
   flex: 1; padding: 10px;
   background: var(--bg-surface); color: var(--text-secondary);
   border: 1px solid var(--border);
-  border-radius: 6px; cursor: pointer; font-size: 14px; transition: background 0.2s, color 0.2s;
+  border-radius: 8px; cursor: pointer; font-size: 14px; transition: background 0.2s, color 0.2s;
 }
 .preview-controls button:hover { background: var(--accent-muted); color: var(--accent); }
 .preview-thumbnails { display: flex; gap: 6px; flex-wrap: wrap; }

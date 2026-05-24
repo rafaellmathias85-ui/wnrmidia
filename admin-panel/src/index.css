@@ -1,14 +1,19 @@
 :root {
-  --bg-deep:       #0C0C14;
-  --bg-surface:    #13131F;
-  --bg-card:       #1A1A2C;
-  --bg-input:      #0F0F1A;
-  --accent:        #F0B429;
-  --accent-dark:   #C89620;
-  --accent-muted:  rgba(240, 180, 41, 0.12);
-  --text-primary:  #FFFFFF;
-  --text-secondary:#9CA3AF;
-  --border:        rgba(255, 255, 255, 0.08);
+  --bg-deep:       #060914;
+  --bg-surface:    #0b1020;
+  --bg-card:       #101625;
+  --bg-card-soft:  #141a2b;
+  --bg-input:      #080d19;
+  --accent:        #f4c400;
+  --accent-dark:   #b99200;
+  --accent-soft:   #ffe45c;
+  --accent-muted:  rgba(244, 196, 0, 0.11);
+  --text-primary:  #f8fafc;
+  --text-secondary:#c8ceda;
+  --text-muted:    #8993a6;
+  --border:        rgba(244, 196, 0, 0.18);
+  --border-soft:   rgba(255, 255, 255, 0.08);
+  --shadow:        0 22px 60px rgba(0, 0, 0, 0.42);
   --online:        #4ade80;
   --offline:       #f87171;
 }
@@ -25,7 +30,9 @@ body {
     'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: var(--bg-deep);
+  background:
+    radial-gradient(circle at 82% 0%, rgba(244, 196, 0, 0.08), transparent 30%),
+    linear-gradient(135deg, #060914 0%, #080b16 45%, #05070d 100%);
   color: var(--text-primary);
 }
 
@@ -36,6 +43,18 @@ code {
 button {
   cursor: pointer;
   font-family: inherit;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+::selection {
+  background: rgba(244, 196, 0, 0.28);
+  color: var(--text-primary);
 }
 
 a {

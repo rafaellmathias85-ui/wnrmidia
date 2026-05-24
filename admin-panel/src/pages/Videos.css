@@ -1,14 +1,11 @@
-.videos-page h1 {
-  margin-bottom: 30px;
-  color: var(--text-primary);
-}
+.videos-page h1 { margin-bottom: 28px; color: var(--text-primary); }
 
 .upload-section {
-  background: var(--bg-card);
-  padding: 25px;
-  border-radius: 10px;
+  background: linear-gradient(145deg, rgba(16, 22, 37, 0.98), rgba(9, 14, 27, 0.98));
+  padding: 28px;
+  border-radius: 8px;
   border: 1px solid var(--border);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  box-shadow: var(--shadow);
   margin-bottom: 30px;
 }
 
@@ -20,12 +17,13 @@
 
 .upload-form input,
 .upload-form textarea {
-  padding: 12px;
+  padding: 13px 14px;
   background: var(--bg-input);
-  border: 1px solid var(--border);
-  border-radius: 6px;
+  border: 1px solid var(--border-soft);
+  border-radius: 8px;
   font-size: 14px;
   color: var(--text-primary);
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
 }
 
 .upload-form input::placeholder,
@@ -38,30 +36,33 @@
   outline: none;
   border-color: var(--accent);
   box-shadow: 0 0 0 3px var(--accent-muted);
+  background: #0b1120;
 }
 
 .upload-form button {
-  padding: 12px;
-  background: var(--accent);
-  color: #0C0C14;
+  padding: 13px 18px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-soft));
+  color: #07101f;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
-  font-weight: 700;
+  font-weight: 800;
   font-size: 14px;
-  transition: background 0.2s;
+  transition: transform 0.2s, filter 0.2s;
 }
 
 .upload-form button:hover {
-  background: var(--accent-dark);
+  filter: brightness(0.94);
+  transform: translateY(-1px);
 }
 
 .videos-list {
-  background: var(--bg-card);
-  padding: 25px;
-  border-radius: 10px;
+  background: linear-gradient(145deg, rgba(16, 22, 37, 0.98), rgba(9, 14, 27, 0.98));
+  padding: 28px;
+  border-radius: 8px;
   border: 1px solid var(--border);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  box-shadow: var(--shadow);
+  overflow-x: auto;
 }
 
 .videos-table {
@@ -71,8 +72,8 @@
 }
 
 .videos-table th {
-  background: var(--bg-surface);
-  padding: 12px;
+  background: rgba(244, 196, 0, 0.07);
+  padding: 14px 12px;
   text-align: left;
   font-weight: 600;
   font-size: 13px;
@@ -83,22 +84,22 @@
 }
 
 .videos-table td {
-  padding: 12px;
-  border-bottom: 1px solid var(--border);
+  padding: 14px 12px;
+  border-bottom: 1px solid var(--border-soft);
   color: var(--text-primary);
   font-size: 14px;
 }
 
 .videos-table tr:hover td {
-  background: var(--accent-muted);
+  background: rgba(244, 196, 0, 0.06);
 }
 
 .btn-delete {
   background: rgba(248, 113, 113, 0.15);
   color: var(--offline);
   border: 1px solid rgba(248, 113, 113, 0.3);
-  padding: 6px 12px;
-  border-radius: 4px;
+  padding: 7px 12px;
+  border-radius: 7px;
   cursor: pointer;
   font-size: 13px;
   transition: background 0.2s;

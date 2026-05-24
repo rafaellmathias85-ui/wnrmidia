@@ -3,15 +3,20 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: var(--bg-deep);
+  padding: 24px;
+  background:
+    radial-gradient(circle at 78% 12%, rgba(244, 196, 0, 0.12), transparent 28%),
+    linear-gradient(135deg, #060914 0%, #080d18 58%, #05060c 100%);
 }
 
 .login-box {
-  background: var(--bg-card);
-  padding: 40px;
-  border-radius: 12px;
+  background:
+    linear-gradient(145deg, rgba(16, 22, 37, 0.98), rgba(8, 12, 24, 0.98)),
+    radial-gradient(circle at 100% 0%, rgba(244, 196, 0, 0.16), transparent 36%);
+  padding: 42px;
+  border-radius: 8px;
   border: 1px solid var(--border);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.54);
   width: 100%;
   max-width: 400px;
   text-align: center;
@@ -21,7 +26,8 @@
   margin-bottom: 6px;
   color: var(--accent);
   font-size: 28px;
-  letter-spacing: 2px;
+  letter-spacing: 0;
+  font-weight: 800;
 }
 
 .login-box h2 {
@@ -37,13 +43,14 @@
 }
 
 .login-box input {
-  padding: 12px 15px;
+  padding: 13px 15px;
   margin: 8px 0;
   background: var(--bg-input);
-  border: 1px solid var(--border);
-  border-radius: 6px;
+  border: 1px solid var(--border-soft);
+  border-radius: 8px;
   font-size: 15px;
   color: var(--text-primary);
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
 }
 
 .login-box input::placeholder {
@@ -54,24 +61,25 @@
   outline: none;
   border-color: var(--accent);
   box-shadow: 0 0 0 3px var(--accent-muted);
+  background: #0b1120;
 }
 
 .login-box button {
   padding: 13px;
   margin-top: 20px;
-  background: var(--accent);
-  color: #0C0C14;
+  background: linear-gradient(135deg, var(--accent), var(--accent-soft));
+  color: #07101f;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 15px;
-  font-weight: 700;
+  font-weight: 800;
   cursor: pointer;
   transition: background 0.2s, transform 0.15s;
   letter-spacing: 0.5px;
 }
 
 .login-box button:hover {
-  background: var(--accent-dark);
+  filter: brightness(0.94);
   transform: translateY(-1px);
 }
 
@@ -105,5 +113,5 @@
 }
 
 .link-btn:hover {
-  color: var(--accent-dark);
+  color: var(--accent-soft);
 }

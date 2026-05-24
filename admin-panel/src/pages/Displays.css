@@ -1,14 +1,11 @@
-.displays-page h1 {
-  margin-bottom: 30px;
-  color: var(--text-primary);
-}
+.displays-page h1 { margin-bottom: 28px; color: var(--text-primary); }
 
 .create-display {
-  background: var(--bg-card);
-  padding: 25px;
-  border-radius: 10px;
+  background: linear-gradient(145deg, rgba(16, 22, 37, 0.98), rgba(9, 14, 27, 0.98));
+  padding: 28px;
+  border-radius: 8px;
   border: 1px solid var(--border);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  box-shadow: var(--shadow);
   margin-bottom: 30px;
 }
 
@@ -20,12 +17,13 @@
 
 .create-display input,
 .create-display select {
-  padding: 12px;
+  padding: 13px 14px;
   background: var(--bg-input);
-  border: 1px solid var(--border);
-  border-radius: 6px;
+  border: 1px solid var(--border-soft);
+  border-radius: 8px;
   font-size: 14px;
   color: var(--text-primary);
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
 }
 
 .create-display input::placeholder {
@@ -36,6 +34,14 @@
   background: var(--bg-card);
 }
 
+.create-display input:focus,
+.create-display select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-muted);
+  background: #0b1120;
+}
+
 .displays-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -43,13 +49,21 @@
 }
 
 .display-card {
-  background: var(--bg-card);
-  padding: 20px;
-  border-radius: 10px;
-  border: 1px solid var(--border);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  background:
+    linear-gradient(145deg, rgba(16, 22, 37, 0.98), rgba(9, 14, 27, 0.98)),
+    radial-gradient(circle at 100% 0%, rgba(244, 196, 0, 0.12), transparent 34%);
+  padding: 22px;
+  border-radius: 8px;
+  border: 1px solid var(--border-soft);
+  box-shadow: 0 16px 44px rgba(0, 0, 0, 0.28);
   position: relative;
   border-left: 4px solid rgba(156, 163, 175, 0.3);
+  transition: transform 0.2s, border-color 0.2s;
+}
+
+.display-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(244, 196, 0, 0.24);
 }
 
 .display-card.status-online {
@@ -72,7 +86,7 @@
 
 .display-card.status-online .status-indicator {
   background: var(--online);
-  box-shadow: 0 0 6px var(--online);
+  box-shadow: 0 0 14px rgba(74, 222, 128, 0.75);
 }
 
 .display-card.status-offline .status-indicator {
@@ -120,37 +134,39 @@
 }
 
 .btn-primary {
-  padding: 10px 20px;
-  background: var(--accent);
-  color: #0C0C14;
+  padding: 11px 20px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-soft));
+  color: #07101f;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 14px;
-  font-weight: 600;
-  transition: background 0.2s;
+  font-weight: 800;
+  transition: filter 0.2s, transform 0.2s;
 }
 
 .btn-primary:hover {
-  background: var(--accent-dark);
+  filter: brightness(0.94);
+  transform: translateY(-1px);
 }
 
 .display-card .btn-assign {
   width: 100%;
-  padding: 10px;
-  background: var(--accent);
-  color: #0C0C14;
+  padding: 11px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-soft));
+  color: #07101f;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
   margin-top: 15px;
   font-size: 14px;
-  font-weight: 600;
-  transition: background 0.2s;
+  font-weight: 800;
+  transition: filter 0.2s, transform 0.2s;
 }
 
 .display-card .btn-assign:hover {
-  background: var(--accent-dark);
+  filter: brightness(0.94);
+  transform: translateY(-1px);
 }
 
 .display-card .btn-delete {
@@ -159,7 +175,7 @@
   background: rgba(248, 113, 113, 0.15);
   color: var(--offline);
   border: 1px solid rgba(248, 113, 113, 0.3);
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
   margin-top: 8px;
   font-size: 14px;
@@ -173,7 +189,7 @@
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(3, 6, 13, 0.74);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -182,9 +198,9 @@
 }
 
 .modal {
-  background: var(--bg-card);
+  background: linear-gradient(145deg, rgba(16, 22, 37, 0.98), rgba(9, 14, 27, 0.98));
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: 8px;
   padding: 30px;
   width: 400px;
   max-width: 90vw;
@@ -211,8 +227,8 @@
   width: 100%;
   padding: 12px;
   background: var(--bg-input);
-  border: 1px solid var(--border);
-  border-radius: 6px;
+  border: 1px solid var(--border-soft);
+  border-radius: 8px;
   font-size: 14px;
   color: var(--text-primary);
   margin-bottom: 20px;
@@ -231,9 +247,9 @@
   flex: 1;
   padding: 10px;
   background: var(--accent);
-  color: #0C0C14;
+  color: #07101f;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 14px;
   font-weight: 600;
@@ -267,7 +283,7 @@
   background: var(--bg-surface);
   color: var(--text-secondary);
   border: 1px solid var(--border);
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 13px;
   margin-bottom: 6px;

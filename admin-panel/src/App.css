@@ -1,24 +1,28 @@
 .app {
   display: flex;
   height: 100vh;
-  background: var(--bg-deep);
+  background:
+    radial-gradient(circle at 85% 0%, rgba(244, 196, 0, 0.07), transparent 28%),
+    linear-gradient(135deg, #060914 0%, #080d18 55%, #05060c 100%);
 }
 
 .sidebar {
-  width: 250px;
-  background: var(--bg-surface);
+  width: 280px;
+  background:
+    linear-gradient(180deg, rgba(17, 23, 38, 0.96) 0%, rgba(8, 12, 23, 0.98) 100%);
   color: var(--text-primary);
-  padding: 20px;
-  border-right: 1px solid var(--border);
-  box-shadow: 2px 0 20px rgba(0, 0, 0, 0.4);
+  padding: 28px 24px;
+  border-right: 1px solid var(--border-soft);
+  box-shadow: 24px 0 70px rgba(0, 0, 0, 0.25);
 }
 
 .sidebar-header h1 {
   margin: 0;
-  font-size: 24px;
-  margin-bottom: 30px;
+  font-size: 25px;
+  margin-bottom: 34px;
   color: var(--accent);
-  letter-spacing: 1px;
+  letter-spacing: 0;
+  font-weight: 800;
 }
 
 .sidebar-menu {
@@ -28,7 +32,7 @@
 }
 
 .sidebar-menu li {
-  margin: 6px 0;
+  margin: 8px 0;
 }
 
 .sidebar-menu a,
@@ -36,10 +40,10 @@
   display: block;
   color: var(--text-secondary);
   text-decoration: none;
-  padding: 12px 15px;
-  border-radius: 6px;
-  transition: background 0.2s, color 0.2s;
-  border: none;
+  padding: 13px 16px;
+  border-radius: 8px;
+  transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.2s;
+  border: 1px solid transparent;
   background: transparent;
   cursor: pointer;
   font-size: 15px;
@@ -49,21 +53,76 @@
 
 .sidebar-menu a:hover,
 .sidebar-menu button:hover {
-  background: var(--accent-muted);
+  background: rgba(244, 196, 0, 0.08);
+  border-color: rgba(244, 196, 0, 0.16);
   color: var(--accent);
+  transform: translateX(2px);
 }
 
 .sidebar-menu a.active {
-  background: var(--accent-muted);
+  background: linear-gradient(135deg, rgba(244, 196, 0, 0.16), rgba(244, 196, 0, 0.07));
   color: var(--accent);
-  font-weight: 600;
-  border-left: 3px solid var(--accent);
-  padding-left: 12px;
+  font-weight: 700;
+  border-color: rgba(244, 196, 0, 0.28);
+  box-shadow: inset 3px 0 0 var(--accent);
 }
 
 .main-content {
   flex: 1;
   overflow-y: auto;
-  padding: 24px;
-  background: var(--bg-deep);
+  padding: 36px 30px;
+  background: transparent;
+}
+
+.main-content h1 {
+  font-size: 34px;
+  line-height: 1.15;
+  margin-bottom: 28px;
+  letter-spacing: 0;
+}
+
+.main-content h2 {
+  color: var(--text-primary);
+  font-size: 19px;
+  margin: 0 0 18px 0;
+}
+
+@media (max-width: 860px) {
+  .app {
+    flex-direction: column;
+    min-height: 100vh;
+    height: auto;
+  }
+
+  .sidebar {
+    width: 100%;
+    padding: 20px;
+    border-right: none;
+    border-bottom: 1px solid var(--border-soft);
+  }
+
+  .sidebar-header h1 {
+    margin-bottom: 16px;
+  }
+
+  .sidebar-menu {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+
+  .sidebar-menu li {
+    flex: 0 0 auto;
+    margin: 0;
+  }
+
+  .sidebar-menu a,
+  .sidebar-menu button {
+    white-space: nowrap;
+  }
+
+  .main-content {
+    padding: 24px 18px;
+  }
 }
