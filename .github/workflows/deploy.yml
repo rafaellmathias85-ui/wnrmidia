@@ -19,71 +19,65 @@ jobs:
             set -e
             APP_DIR="/var/www/wnrmidia"
 
-            # Instalar Node.js se necessário
+            # --- Node.js ---
             if ! command -v node &> /dev/null; then
               curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
               sudo apt-get install -y nodejs
             fi
 
-            # Instalar PM2 se necessário
+            # --- PM2 ---
             if ! command -v pm2 &> /dev/null; then
               sudo npm install -g pm2
             fi
 
-            # Instalar nginx e ffmpeg se necessário
-            if ! command -v nginx &> /dev/null; then
-              sudo apt-get install -y nginx ffmpeg
+            # --- ffmpeg ---
+            if ! command -v ffmpeg &> /dev/null; then
+              sudo apt-get install -y ffmpeg
             fi
 
-            # Clonar ou atualizar repositório
+            # --- Repositório ---
             if [ -d "$APP_DIR/.git" ]; then
-              cd "$APP_DIR"
-              git pull origin main
+              cd "$APP_DIR" && git pull origin main
             else
               sudo mkdir -p "$APP_DIR"
               sudo chown $USER:$USER "$APP_DIR"
               git clone https://github.com/rafaellmathias85-ui/wnrmidia.git "$APP_DIR"
-              cd "$APP_DIR"
             fi
 
-            cd "$APP_DIR"
-
-            # Backend: instalar dependências
-            cd backend
+            # --- Backend: dependências ---
+            cd "$APP_DIR/backend"
             npm install --production
 
-            # Criar .env se não existir
+            # Criar .env se não existir (nunca sobrescreve)
             if [ ! -f .env ]; then
-              echo "NODE_ENV=development" > .env
-              echo "PORT=5000" >> .env
-              echo "JWT_SECRET=$(openssl rand -hex 32)" >> .env
-              echo "JWT_EXPIRE=7d" >> .env
-              echo "VIDEO_UPLOAD_PATH=./uploads/videos" >> .env
-              echo "MAX_VIDEO_SIZE=500000000" >> .env
+              cat > .env << ENVEOF
+            NODE_ENV=development
+            PORT=5000
+            JWT_SECRET=$(openssl rand -hex 32)
+            JWT_EXPIRE=7d
+            VIDEO_UPLOAD_PATH=./uploads/videos
+            MAX_VIDEO_SIZE=500000000
+            ENVEOF
             fi
 
-            # Criar pasta de uploads
             mkdir -p uploads/videos
-
-            # Rodar migrações
             npx knex migrate:latest
             npx knex seed:run --specific=001_users.js 2>/dev/null || true
 
-            cd "$APP_DIR"
-
-            # Admin panel: build
-            cd admin-panel
+            # --- Admin Panel: build para /wnrmidia ---
+            cd "$APP_DIR/admin-panel"
             npm install
-            cat > .env.production << EOF
-            REACT_APP_API_URL=http://${{ secrets.VM_HOST }}:5000/api
-            REACT_APP_SOCKET_URL=http://${{ secrets.VM_HOST }}:5000
-            EOF
+
+            cat > .env.production << ENVEOF
+            REACT_APP_API_URL=http://wnrtecnologia.com.br/wnrmidia/api
+            REACT_APP_SOCKET_URL=http://wnrtecnologia.com.br
+            ENVEOF
+
             npm run build
 
+            # --- PM2 ---
             cd "$APP_DIR"
-
-            # PM2: criar ecosystem e reiniciar
-            cat > ecosystem.config.js << EOF
+            cat > ecosystem.config.js << PMEOF
             module.exports = {
               apps: [{
                 name: 'wnrmidia-backend',
@@ -95,7 +89,7 @@ jobs:
                 restart_delay: 5000,
               }]
             }
-            EOF
+            PMEOF
 
             if pm2 list | grep -q wnrmidia-backend; then
               pm2 reload wnrmidia-backend
@@ -103,40 +97,85 @@ jobs:
               pm2 start ecosystem.config.js
             fi
             pm2 save
+            sudo env PATH=$PATH:/usr/bin pm2 startup systemd -u $USER --hp $HOME 2>/dev/null || true
 
-            # Nginx: configurar se não existir
-            if [ ! -f /etc/nginx/sites-available/wnrmidia ]; then
-              sudo tee /etc/nginx/sites-available/wnrmidia > /dev/null << EOF
-            server {
-                listen 8080;
-                server_name _;
-                root $APP_DIR/admin-panel/build;
-                index index.html;
-                location / {
-                    try_files \$uri \$uri/ /index.html;
-                }
-                location /api {
-                    proxy_pass http://localhost:5000;
-                    proxy_http_version 1.1;
-                    proxy_set_header Upgrade \$http_upgrade;
-                    proxy_set_header Connection 'upgrade';
-                    proxy_set_header Host \$host;
-                }
-                location /socket.io {
-                    proxy_pass http://localhost:5000;
-                    proxy_http_version 1.1;
-                    proxy_set_header Upgrade \$http_upgrade;
-                    proxy_set_header Connection "upgrade";
-                }
-                location /uploads {
-                    proxy_pass http://localhost:5000;
-                    client_max_body_size 500M;
-                }
+            # --- Nginx: snippet com location blocks para /wnrmidia ---
+            sudo mkdir -p /etc/nginx/snippets
+
+            sudo tee /etc/nginx/snippets/wnrmidia.conf > /dev/null << 'NGINXEOF'
+            # WnrMidia API proxy
+            location ^~ /wnrmidia/api/ {
+                proxy_pass http://localhost:5000/api/;
+                proxy_set_header Host $host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                client_max_body_size 500M;
             }
-            EOF
-              sudo ln -sf /etc/nginx/sites-available/wnrmidia /etc/nginx/sites-enabled/wnrmidia
-              sudo nginx -t && sudo systemctl reload nginx
-            fi
 
-            echo "Deploy concluido com sucesso!"
+            # WnrMidia uploads proxy
+            location ^~ /wnrmidia/uploads/ {
+                proxy_pass http://localhost:5000/uploads/;
+                client_max_body_size 500M;
+            }
+
+            # WnrMidia socket.io proxy
+            location ^~ /wnrmidia/socket.io/ {
+                proxy_pass http://localhost:5000/socket.io/;
+                proxy_http_version 1.1;
+                proxy_set_header Upgrade $http_upgrade;
+                proxy_set_header Connection "upgrade";
+                proxy_set_header Host $host;
+            }
+
+            # WnrMidia admin panel (React SPA)
+            location ^~ /wnrmidia/ {
+                alias /var/www/wnrmidia/admin-panel/build/;
+                try_files $uri /wnrmidia/index.html;
+            }
+            location = /wnrmidia {
+                return 301 /wnrmidia/;
+            }
+            NGINXEOF
+
+            # Injetar include no server block existente (porta 80) se ainda não estiver lá
+            sudo python3 << 'PYEOF'
+            import subprocess, os
+
+            snippet_line = '    include snippets/wnrmidia.conf;\n'
+
+            # Achar config que serve porta 80
+            result = subprocess.run(
+                ['grep', '-rl', 'listen 80', '/etc/nginx/sites-enabled/'],
+                capture_output=True, text=True
+            )
+            conf_file = result.stdout.strip().split('\n')[0] if result.stdout.strip() else '/etc/nginx/sites-available/default'
+
+            # Resolver symlink para arquivo real
+            if os.path.islink(conf_file):
+                conf_file = os.path.realpath(conf_file)
+
+            with open(conf_file, 'r') as f:
+                content = f.read()
+
+            if 'snippets/wnrmidia.conf' not in content:
+                # Inserir antes do último }
+                pos = content.rfind('}')
+                if pos != -1:
+                    new_content = content[:pos] + snippet_line + content[pos:]
+                    with open(conf_file, 'w') as f:
+                        f.write(new_content)
+                    print(f"Include adicionado em: {conf_file}")
+                else:
+                    print("ERRO: closing brace nao encontrado")
+            else:
+                print("Include ja presente, nada alterado")
+            PYEOF
+
+            # Testar e recarregar nginx
+            sudo nginx -t && sudo systemctl reload nginx
+
+            echo ""
+            echo "Deploy concluido!"
+            echo "  Admin: http://wnrtecnologia.com.br/wnrmidia"
+            echo "  API  : http://wnrtecnologia.com.br/wnrmidia/api"
             pm2 status

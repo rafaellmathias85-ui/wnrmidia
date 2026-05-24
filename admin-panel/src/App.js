@@ -22,7 +22,7 @@ function App() {
   }
 
   return (
-    <Router>
+    <Router basename="/wnrmidia">
       <div className="app">
         <nav className="sidebar">
           <div className="sidebar-header">
