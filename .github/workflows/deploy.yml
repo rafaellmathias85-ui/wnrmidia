@@ -39,6 +39,7 @@ jobs:
             if [ -d "$APP_DIR/.git" ]; then
               cd "$APP_DIR"
               git fetch origin main
+              git clean -fd
               git reset --hard origin/main
             else
               sudo mkdir -p "$APP_DIR"
