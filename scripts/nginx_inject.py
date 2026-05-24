@@ -45,10 +45,16 @@ LOCATION_BLOCK = """\
     }
     location ^~ /wnrmidia/app/ {
         alias /var/www/wnrmidia/admin-panel/build/;
+        add_header Cache-Control "no-store, no-cache, must-revalidate, proxy-revalidate" always;
+        add_header Pragma "no-cache" always;
+        add_header Expires "0" always;
         try_files $uri $uri/ /wnrmidia-app-index.html;
     }
     location = /wnrmidia-app-index.html {
         internal;
+        add_header Cache-Control "no-store, no-cache, must-revalidate, proxy-revalidate" always;
+        add_header Pragma "no-cache" always;
+        add_header Expires "0" always;
         alias /var/www/wnrmidia/admin-panel/build/index.html;
     }
 """
