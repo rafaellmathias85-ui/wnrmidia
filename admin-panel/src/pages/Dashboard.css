@@ -5,22 +5,23 @@
 
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap: 28px;
   margin-bottom: 40px;
 }
 
 .stat-card {
   background:
-    linear-gradient(145deg, rgba(16, 22, 37, 0.98), rgba(9, 14, 27, 0.98)),
-    radial-gradient(circle at 95% 0%, rgba(244, 196, 0, 0.16), transparent 36%);
-  padding: 32px;
+    radial-gradient(circle at 100% 0%, rgba(255, 212, 0, 0.13), transparent 42%),
+    linear-gradient(145deg, rgba(13, 19, 34, 0.96), rgba(7, 11, 21, 0.98));
+  padding: 34px 36px;
   border-radius: 8px;
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow);
+  border: 1px solid rgba(255, 212, 0, 0.2);
+  box-shadow: 0 26px 72px rgba(0, 0, 0, 0.34);
   min-height: 180px;
   position: relative;
   overflow: hidden;
+  backdrop-filter: blur(10px);
   transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
 }
 
@@ -28,19 +29,31 @@
   content: "";
   position: absolute;
   inset: 0 auto 0 0;
-  width: 4px;
-  background: linear-gradient(180deg, var(--accent), rgba(244, 196, 0, 0.25));
+  width: 3px;
+  background: linear-gradient(180deg, var(--accent), rgba(255, 212, 0, 0.08));
+}
+
+.stat-card::after {
+  content: "";
+  position: absolute;
+  width: 92px;
+  height: 92px;
+  top: -42px;
+  right: -34px;
+  border-radius: 50%;
+  background: rgba(255, 212, 0, 0.1);
+  filter: blur(16px);
 }
 
 .stat-card:hover {
-  transform: translateY(-2px);
-  border-color: rgba(244, 196, 0, 0.36);
-  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.48);
+  transform: translateY(-3px);
+  border-color: rgba(255, 212, 0, 0.42);
+  box-shadow: 0 32px 84px rgba(0, 0, 0, 0.44);
 }
 
 .stat-card h3 {
   margin: 0 0 15px 0;
-  color: var(--text-secondary);
+  color: #dce3ef;
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 1.2px;
@@ -49,7 +62,7 @@
 
 .stat-number {
   margin: 0;
-  font-size: 44px;
+  font-size: 48px;
   font-weight: 800;
   color: var(--accent);
   line-height: 1.1;

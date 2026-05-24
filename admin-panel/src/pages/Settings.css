@@ -1,11 +1,13 @@
 .settings-page h1 { margin-bottom: 28px; color: var(--text-primary); }
 
 .settings-section {
-  background: linear-gradient(145deg, rgba(16, 22, 37, 0.98), rgba(9, 14, 27, 0.98));
+  background:
+    radial-gradient(circle at 100% 0%, rgba(255, 212, 0, 0.09), transparent 40%),
+    linear-gradient(145deg, rgba(13, 19, 34, 0.96), rgba(7, 11, 21, 0.98));
   padding: 28px;
   border-radius: 8px;
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow);
+  border: 1px solid rgba(255, 212, 0, 0.2);
+  box-shadow: 0 26px 72px rgba(0, 0, 0, 0.34);
   margin-bottom: 22px;
   transition: transform 0.2s, border-color 0.2s;
 }

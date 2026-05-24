@@ -5,33 +5,50 @@
   height: 100vh;
   padding: 24px;
   background:
-    radial-gradient(circle at 78% 12%, rgba(244, 196, 0, 0.12), transparent 28%),
-    linear-gradient(135deg, #060914 0%, #080d18 58%, #05060c 100%);
+    radial-gradient(circle at 70% 16%, rgba(255, 212, 0, 0.13), transparent 28%),
+    radial-gradient(circle at 34% 0%, rgba(61, 90, 128, 0.16), transparent 30%),
+    linear-gradient(135deg, #050813 0%, #080d18 55%, #060708 100%);
 }
 
 .login-box {
   background:
-    linear-gradient(145deg, rgba(16, 22, 37, 0.98), rgba(8, 12, 24, 0.98)),
-    radial-gradient(circle at 100% 0%, rgba(244, 196, 0, 0.16), transparent 36%);
-  padding: 42px;
+    radial-gradient(circle at 100% 0%, rgba(255, 212, 0, 0.14), transparent 38%),
+    linear-gradient(145deg, rgba(13, 19, 34, 0.97), rgba(7, 11, 21, 0.99));
+  padding: 48px 52px;
   border-radius: 8px;
-  border: 1px solid var(--border);
-  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.54);
+  border: 1px solid rgba(255, 212, 0, 0.22);
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.58);
   width: 100%;
-  max-width: 400px;
+  max-width: 500px;
   text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.login-box::before {
+  content: "";
+  display: block;
+  width: 70px;
+  height: 70px;
+  margin: 0 auto 28px;
+  border: 1px solid rgba(255, 212, 0, 0.58);
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, rgba(255, 212, 0, 0.16), rgba(255, 212, 0, 0.04)),
+    #0b1222;
+  box-shadow: inset 0 0 26px rgba(255, 212, 0, 0.09), 0 18px 38px rgba(0, 0, 0, 0.34);
 }
 
 .login-box h1 {
-  margin-bottom: 6px;
+  margin-bottom: 8px;
   color: var(--accent);
-  font-size: 28px;
+  font-size: 34px;
   letter-spacing: 0;
   font-weight: 800;
 }
 
 .login-box h2 {
-  margin-bottom: 30px;
+  margin-bottom: 38px;
   color: var(--text-secondary);
   font-size: 15px;
   font-weight: 400;
@@ -64,7 +81,7 @@
   background: #0b1120;
 }
 
-.login-box button {
+.login-box form button {
   padding: 13px;
   margin-top: 20px;
   background: linear-gradient(135deg, var(--accent), var(--accent-soft));
@@ -78,19 +95,19 @@
   letter-spacing: 0.5px;
 }
 
-.login-box button:hover {
+.login-box form button:hover {
   filter: brightness(0.94);
   transform: translateY(-1px);
 }
 
-.login-box button:disabled {
+.login-box form button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
   transform: none;
 }
 
 .login-box p {
-  margin-top: 20px;
+  margin-top: 28px;
   color: var(--text-secondary);
   font-size: 14px;
 }
@@ -110,6 +127,8 @@
   font-family: inherit;
   text-decoration: underline;
   text-underline-offset: 2px;
+  margin: 0;
+  font-weight: 800;
 }
 
 .link-btn:hover {
