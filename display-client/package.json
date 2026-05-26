@@ -12,6 +12,7 @@
     "productName": "WNR Midia Display",
     "artifactName": "WNRMidiaDisplay-Setup.exe",
     "copyright": "Copyright © 2025 WNR Tecnologia",
+    "publish": null,
     "directories": { "output": "dist" },
     "files": [
       "main.js",
