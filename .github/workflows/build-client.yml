@@ -8,9 +8,9 @@ on:
   workflow_dispatch:
 
 jobs:
+  # ── Job 1: build no Windows (único SO que gera .exe nativamente) ─────────────
   build:
     runs-on: windows-latest
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -27,8 +27,24 @@ jobs:
       - name: Build instalador Windows
         working-directory: display-client
         run: npm run build:win
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Salvar exe como artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: exe-windows
+          path: display-client/dist/WNRMidiaDisplay-Setup.exe
+          retention-days: 1
+
+  # ── Job 2: deploy no Linux (ssh-action/scp-action exigem Linux) ─────────────
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar exe do artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: exe-windows
+          path: ./dist
 
       - name: Criar diretório downloads no servidor
         uses: appleboy/ssh-action@v1.0.3
@@ -46,9 +62,9 @@ jobs:
           username: ${{ secrets.VM_USER }}
           password: ${{ secrets.VM_PASSWORD }}
           port: 22
-          source: "display-client/dist/WNRMidiaDisplay-Setup.exe"
+          source: "dist/WNRMidiaDisplay-Setup.exe"
           target: "/var/www/wnrmidia/downloads/"
-          strip_components: 2
+          strip_components: 1
 
       - name: Verificar upload
         uses: appleboy/ssh-action@v1.0.3
@@ -59,4 +75,4 @@ jobs:
           port: 22
           script: |
             ls -lh /var/www/wnrmidia/downloads/
-            echo "Exe disponivel em: https://wnrtecnologia.com.br/wnrmidia/downloads/WNRMidiaDisplay-Setup.exe"
+            echo "Disponivel em: https://wnrtecnologia.com.br/wnrmidia/downloads/WNRMidiaDisplay-Setup.exe"
