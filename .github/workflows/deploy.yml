@@ -75,8 +75,12 @@ jobs:
             grep -v "SECRET\|PASSWORD" .env || true
 
             mkdir -p uploads/videos
-            npx knex migrate:latest
-            npx knex seed:run --specific=001_users.js 2>/dev/null || true
+            # Remove rogue empty sqlite files that can be created by wrong path resolution
+            rm -f "$APP_DIR/backend/src/wnrmidia.sqlite"
+            rm -f "$APP_DIR/wnrmidia.sqlite"
+            # Force development env so knex uses SQLite (not the PG production config)
+            NODE_ENV=development npx knex migrate:latest
+            NODE_ENV=development npx knex seed:run --specific=001_users.js 2>/dev/null || true
 
             # --- Admin Panel build ---
             cd "$APP_DIR/admin-panel"
