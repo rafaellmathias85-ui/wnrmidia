@@ -81,7 +81,7 @@ jobs:
             # --- Admin Panel build ---
             cd "$APP_DIR/admin-panel"
             npm install
-            printf "REACT_APP_API_URL=http://4.228.218.45/wnrmidia/app/api\nREACT_APP_SOCKET_URL=http://4.228.218.45\n" > .env.production
+            printf "REACT_APP_API_URL=https://wnrtecnologia.com.br/wnrmidia/app/api\nREACT_APP_SOCKET_URL=https://wnrtecnologia.com.br\n" > .env.production
             npm run build
 
             # --- PM2 ---
