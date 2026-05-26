@@ -128,8 +128,8 @@ for f in sorted(os.listdir('/etc/nginx/sites-enabled')):
     print(f"  {f}")
 
 candidates = [
-    '/etc/nginx/sites-available/wnrtecnologia',
     '/etc/nginx/sites-enabled/wnrtecnologia',
+    '/etc/nginx/sites-available/wnrtecnologia',
 ]
 
 conf_file = None

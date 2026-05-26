@@ -1,6 +1,6 @@
 {
   "name": "wnrmidia-display-client",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "WNR Mídia — Cliente de Display Digital",
   "main": "main.js",
   "scripts": {
@@ -10,7 +10,7 @@
   "build": {
     "appId": "br.com.wnrtecnologia.wnrmidia.display",
     "productName": "WNR Midia Display",
-    "artifactName": "WNRMidiaDisplay-Setup.exe",
+    "artifactName": "WNRMidiaDisplay-Setup.zip",
     "copyright": "Copyright © 2025 WNR Tecnologia",
     "publish": null,
     "directories": { "output": "dist" },
@@ -21,16 +21,7 @@
       "assets/**/*"
     ],
     "win": {
-      "target": [{ "target": "nsis", "arch": ["x64"] }],
-      "requestedExecutionLevel": "asInvoker"
-    },
-    "nsis": {
-      "oneClick": false,
-      "allowToChangeInstallationDirectory": true,
-      "createDesktopShortcut": true,
-      "createStartMenuShortcut": true,
-      "shortcutName": "WNR Midia Display",
-      "runAfterFinish": true
+      "target": [{ "target": "zip", "arch": ["x64"] }]
     }
   },
   "devDependencies": {

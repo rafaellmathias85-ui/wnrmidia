@@ -7,9 +7,9 @@ const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
 
 // Strip /app/api from the API URL to get the server base path
 // e.g. https://wnrtecnologia.com.br/wnrmidia/app/api → https://wnrtecnologia.com.br/wnrmidia
-const CLIENT_EXE_URL =
+const CLIENT_ZIP_URL =
   (API_URL || '').replace(/\/app\/api\/?$/, '') +
-  '/downloads/WNRMidiaDisplay-Setup.exe';
+  '/downloads/WNRMidiaDisplay-Setup.zip';
 
 const Displays = () => {
   const [displays, setDisplays] = useState([]);
@@ -277,15 +277,15 @@ const Displays = () => {
               <div className="client-step">
                 <span className="step-num">1</span>
                 <div className="step-body">
-                  <strong>Baixar o instalador</strong>
-                  <p>Instale o aplicativo WNR Mídia Display na máquina hospedeira.</p>
+                  <strong>Baixar o cliente</strong>
+                  <p>Extraia o arquivo .zip na máquina hospedeira e execute o <code>WNR Midia Display.exe</code> dentro da pasta extraída.</p>
                   <a
-                    href={CLIENT_EXE_URL}
+                    href={CLIENT_ZIP_URL}
                     className="btn-dl-exe"
                     target="_blank"
                     rel="noreferrer"
                   >
-                    ⬇ Baixar Instalador Windows (.exe)
+                    ⬇ Baixar Cliente Windows (.zip)
                   </a>
                 </div>
               </div>
@@ -304,9 +304,9 @@ const Displays = () => {
               <div className="client-step">
                 <span className="step-num">3</span>
                 <div className="step-body">
-                  <strong>Instalar e importar a configuração</strong>
+                  <strong>Importar a configuração</strong>
                   <p>
-                    Execute o instalador, abra o app e clique em{' '}
+                    Com o app aberto, clique em{' '}
                     <em>"Importar Arquivo de Configuração"</em>.
                     Selecione o arquivo <code>.json</code> baixado no passo 2.
                     O player iniciará automaticamente vinculado a este display.
@@ -317,7 +317,7 @@ const Displays = () => {
 
             <div className="client-info-box">
               <span>✓</span>
-              O instalador é gerado e publicado automaticamente via GitHub Actions
+              O arquivo .zip é gerado e publicado automaticamente via GitHub Actions
               toda vez que o código do cliente é atualizado. Nenhuma ação manual é necessária.
             </div>
 

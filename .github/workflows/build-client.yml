@@ -32,7 +32,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: exe-windows
-          path: display-client/dist/WNRMidiaDisplay-Setup.exe
+          path: display-client/dist/WNRMidiaDisplay-Setup.zip
           retention-days: 1
 
   # ── Job 2: deploy no Linux (ssh-action/scp-action exigem Linux) ─────────────
@@ -62,7 +62,7 @@ jobs:
           username: ${{ secrets.VM_USER }}
           password: ${{ secrets.VM_PASSWORD }}
           port: 22
-          source: "dist/WNRMidiaDisplay-Setup.exe"
+          source: "dist/WNRMidiaDisplay-Setup.zip"
           target: "/var/www/wnrmidia/downloads/"
           strip_components: 1
 
@@ -75,4 +75,4 @@ jobs:
           port: 22
           script: |
             ls -lh /var/www/wnrmidia/downloads/
-            echo "Disponivel em: https://wnrtecnologia.com.br/wnrmidia/downloads/WNRMidiaDisplay-Setup.exe"
+            echo "Disponivel em: https://wnrtecnologia.com.br/wnrmidia/downloads/WNRMidiaDisplay-Setup.zip"
