@@ -1,10 +1,11 @@
 require('dotenv').config();
+const path = require('path');
 
 module.exports = {
   development: {
     client: 'better-sqlite3',
     connection: {
-      filename: './wnrmidia.sqlite'
+      filename: path.join(__dirname, 'wnrmidia.sqlite')
     },
     useNullAsDefault: true,
     migrations: {

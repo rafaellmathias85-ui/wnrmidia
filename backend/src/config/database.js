@@ -4,7 +4,7 @@ const path = require('path');
 const db = knex({
   client: 'better-sqlite3',
   connection: {
-    filename: path.join(__dirname, '../../wnrmidia.sqlite')
+    filename: path.join(__dirname, '../wnrmidia.sqlite')
   },
   useNullAsDefault: true,
   migrations: {
