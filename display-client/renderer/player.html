@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>WNR Mídia Display</title>
+  <link rel="stylesheet" href="player.css" />
+</head>
+<body>
+
+  <!-- ── Video player ── -->
+  <video id="video" autoplay muted playsinline></video>
+
+  <!-- ── Waiting / error screen ── -->
+  <div id="waiting-screen" class="overlay-screen hidden">
+    <div class="overlay-logo">
+      <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 24 24"
+        fill="none" stroke="#ffd400" stroke-width="1.8"
+        stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20.2 6.3 4.8 9.4a2 2 0 0 1-2.3-1.6l-.2-1A2 2 0 0 1 3.9 4.5l13.4-2.7a2 2 0 0 1 2.3 1.6l.6 2.9Z"/>
+        <path d="m6.2 4 3.4 4"/><path d="m12 2.8 3.4 4"/>
+        <path d="M3 10h18v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-8Z"/>
+      </svg>
+    </div>
+    <h2 id="waiting-title">Aguardando conteúdo</h2>
+    <p  id="waiting-msg">Nenhuma playlist atribuída a este display.<br>Acesse o painel de administração para configurar.</p>
+  </div>
+
+  <!-- ── HUD (bottom bar) ── -->
+  <div id="hud" class="hud hidden">
+    <div class="hud-left">
+      <span id="hud-display-name" class="hud-display-name"></span>
+    </div>
+    <div class="hud-center">
+      <span id="hud-title" class="hud-video-title"></span>
+    </div>
+    <div class="hud-right">
+      <span id="hud-status" class="hud-status status-ok">● online</span>
+    </div>
+  </div>
+
+  <script src="player.js"></script>
+</body>
+</html>

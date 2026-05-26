@@ -1,0 +1,103 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  width: 100%; height: 100%;
+  background: #000;
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  color: #fff;
+}
+
+/* ── Video ─────────────────────────────────── */
+#video {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+  transition: opacity 0.5s ease;
+}
+#video.fading { opacity: 0; }
+
+/* ── Overlay screens ──────────────────────── */
+.overlay-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background:
+    radial-gradient(circle at 60% 20%, rgba(255,212,0,0.08), transparent 40%),
+    linear-gradient(135deg, #050813 0%, #080d18 55%, #060708 100%);
+  gap: 20px;
+}
+.overlay-screen.hidden { display: none; }
+
+.overlay-logo {
+  width: 96px;
+  height: 96px;
+  border: 1px solid rgba(255,212,0,0.50);
+  border-radius: 16px;
+  background:
+    linear-gradient(135deg, rgba(255,212,0,0.14), rgba(255,212,0,0.04)),
+    #0b1222;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 0 32px rgba(255,212,0,0.08), 0 20px 60px rgba(0,0,0,0.40);
+  margin-bottom: 12px;
+}
+
+.overlay-screen h2 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #ffd400;
+}
+.overlay-screen p {
+  font-size: 16px;
+  color: #8892a4;
+  text-align: center;
+  line-height: 1.7;
+}
+
+/* ── HUD ──────────────────────────────────── */
+.hud {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 22px;
+  background: linear-gradient(to top, rgba(0,0,0,0.72), transparent);
+  backdrop-filter: blur(0px);
+  font-size: 13px;
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+.hud:not(.hidden) { opacity: 1; }
+.hud.hidden { display: none; }
+
+.hud-display-name {
+  color: rgba(255,212,0,0.80);
+  font-weight: 700;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+.hud-video-title {
+  color: rgba(255,255,255,0.70);
+  font-size: 13px;
+}
+.hud-status {
+  font-size: 12px;
+  font-weight: 600;
+}
+.status-ok     { color: #4ade80; }
+.status-warn   { color: #fbbf24; }
+.status-error  { color: #f87171; }

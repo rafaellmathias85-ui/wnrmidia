@@ -1,0 +1,143 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --accent:      #ffd400;
+  --accent-muted: rgba(255, 212, 0, 0.12);
+  --bg:          #080d18;
+  --card-bg:     #0d1322;
+  --input-bg:    #0a0f1e;
+  --border:      rgba(255, 212, 0, 0.22);
+  --text:        #ffffff;
+  --text-muted:  #8892a4;
+}
+
+body {
+  background: var(--bg);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  color: var(--text);
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-app-region: no-drag;
+}
+
+.setup-container {
+  width: 100%;
+  padding: 24px;
+}
+
+.setup-card {
+  background:
+    radial-gradient(circle at 100% 0%, rgba(255,212,0,0.10), transparent 36%),
+    linear-gradient(145deg, rgba(13,19,34,0.98), rgba(7,11,21,0.99));
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 40px 44px 44px;
+  max-width: 480px;
+  margin: 0 auto;
+  box-shadow: 0 32px 80px rgba(0,0,0,0.60);
+}
+
+/* ── Logo ─────────────────────────────── */
+.logo-box {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 22px;
+  border: 1px solid rgba(255,212,0,0.52);
+  border-radius: 10px;
+  background:
+    linear-gradient(135deg, rgba(255,212,0,0.14), rgba(255,212,0,0.04)),
+    #0b1222;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 0 24px rgba(255,212,0,0.08), 0 16px 40px rgba(0,0,0,0.36);
+}
+
+h1 {
+  text-align: center;
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--accent);
+  margin-bottom: 6px;
+}
+.subtitle {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 13px;
+  margin-bottom: 30px;
+}
+
+/* ── Form ─────────────────────────────── */
+.field-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 18px;
+  flex: 1;
+}
+.field-row {
+  display: flex;
+  gap: 14px;
+}
+label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 7px;
+}
+input, select {
+  background: var(--input-bg);
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: 8px;
+  color: var(--text);
+  font-size: 14px;
+  font-family: inherit;
+  padding: 11px 14px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+  width: 100%;
+}
+input:focus, select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-muted);
+}
+input::placeholder { color: var(--text-muted); }
+select option       { background: #0c0e1a; }
+.hint {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 5px;
+}
+
+/* ── Error ────────────────────────────── */
+.error-msg {
+  background: rgba(248,113,113,0.10);
+  border: 1px solid rgba(248,113,113,0.30);
+  border-radius: 8px;
+  color: #f87171;
+  font-size: 13px;
+  padding: 10px 14px;
+  margin-bottom: 16px;
+}
+
+/* ── Submit button ───────────────────── */
+button[type=submit] {
+  width: 100%;
+  padding: 14px;
+  margin-top: 8px;
+  background: linear-gradient(135deg, #ffd400, #f0b800);
+  color: #07101f;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: filter 0.18s, transform 0.14s;
+  font-family: inherit;
+  letter-spacing: 0.3px;
+}
+button[type=submit]:hover    { filter: brightness(0.93); transform: translateY(-1px); }
+button[type=submit]:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }

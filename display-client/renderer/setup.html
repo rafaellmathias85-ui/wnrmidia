@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WNR Mídia — Configuração</title>
+  <link rel="stylesheet" href="setup.css" />
+</head>
+<body>
+  <div class="setup-container">
+    <div class="setup-card">
+
+      <div class="logo-box">
+        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24"
+          fill="none" stroke="#ffd400" stroke-width="2.1"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20.2 6.3 4.8 9.4a2 2 0 0 1-2.3-1.6l-.2-1A2 2 0 0 1 3.9 4.5l13.4-2.7a2 2 0 0 1 2.3 1.6l.6 2.9Z"/>
+          <path d="m6.2 4 3.4 4"/><path d="m12 2.8 3.4 4"/>
+          <path d="M3 10h18v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-8Z"/>
+        </svg>
+      </div>
+
+      <h1>WNR Mídia</h1>
+      <p class="subtitle">Configure este display para começar a exibir conteúdo</p>
+
+      <form id="setup-form">
+        <div class="field-group">
+          <label>URL do Servidor (API)</label>
+          <input
+            type="url"
+            id="serverUrl"
+            placeholder="https://wnrtecnologia.com.br/wnrmidia/app/api"
+            required
+          />
+          <span class="hint">Endereço completo da API do WNR Mídia</span>
+        </div>
+
+        <div class="field-group">
+          <label>Nome do Display</label>
+          <input
+            type="text"
+            id="displayName"
+            placeholder="Ex: Loja Centro — Telão Principal"
+            required
+          />
+        </div>
+
+        <div class="field-row">
+          <div class="field-group">
+            <label>Tipo de Display</label>
+            <select id="displayType">
+              <option value="telao">Telão</option>
+              <option value="outdoor">Outdoor</option>
+              <option value="totem">Totem</option>
+              <option value="elevator">Elevador</option>
+            </select>
+          </div>
+
+          <div class="field-group">
+            <label>Localização</label>
+            <input type="text" id="location" placeholder="Ex: Recepção 1º andar" />
+          </div>
+        </div>
+
+        <div id="error-msg" class="error-msg" style="display:none;"></div>
+
+        <button type="submit" id="submit-btn">
+          <span id="btn-text">Conectar e Iniciar</span>
+          <span id="btn-spinner" style="display:none;">Conectando...</span>
+        </button>
+      </form>
+
+    </div>
+  </div>
+
+  <script src="setup.js"></script>
+</body>
+</html>

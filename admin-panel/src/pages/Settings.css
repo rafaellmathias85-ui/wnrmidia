@@ -1,5 +1,52 @@
 .settings-page h1 { margin-bottom: 28px; color: var(--text-primary); }
 
+/* ── Toast ─────────────────────────────────────────── */
+.settings-toast {
+  position: fixed;
+  top: 24px;
+  right: 28px;
+  background: rgba(255, 212, 0, 0.14);
+  border: 1px solid rgba(255, 212, 0, 0.40);
+  color: var(--accent);
+  padding: 12px 22px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  z-index: 9999;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.38);
+  animation: toast-in 0.22s ease;
+}
+@keyframes toast-in {
+  from { opacity: 0; transform: translateY(-10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Tabs ────────────────────────────────────────────── */
+.settings-tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid rgba(255, 212, 0, 0.18);
+  padding-bottom: 0;
+}
+.tab-btn {
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--text-secondary);
+  font-size: 15px;
+  font-weight: 600;
+  padding: 10px 22px 12px;
+  cursor: pointer;
+  transition: color 0.18s, border-color 0.18s;
+  font-family: inherit;
+  margin-bottom: -1px;
+}
+.tab-btn:hover  { color: var(--accent); }
+.tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+/* ── Section card ───────────────────────────────────── */
 .settings-section {
   background:
     radial-gradient(circle at 100% 0%, rgba(255, 212, 0, 0.09), transparent 40%),
@@ -11,20 +58,145 @@
   margin-bottom: 22px;
   transition: transform 0.2s, border-color 0.2s;
 }
-
 .settings-section:hover {
   transform: translateY(-2px);
   border-color: rgba(244, 196, 0, 0.32);
 }
-
 .settings-section h2 {
-  margin: 0 0 16px 0;
+  margin: 0 0 18px 0;
   color: var(--accent);
   font-size: 17px;
 }
-
 .settings-section p {
   margin: 10px 0;
   color: var(--text-secondary);
   font-size: 14px;
+}
+
+/* ── Section header (title + refresh button) ──────── */
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+.section-header h2 { margin: 0; }
+.btn-refresh {
+  background: rgba(255, 212, 0, 0.10);
+  border: 1px solid rgba(255, 212, 0, 0.30);
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 7px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+  font-family: inherit;
+}
+.btn-refresh:hover {
+  background: rgba(255, 212, 0, 0.18);
+  border-color: rgba(255, 212, 0, 0.52);
+}
+
+/* ── State messages ─────────────────────────────────── */
+.state-text {
+  color: var(--text-secondary);
+  font-size: 14px;
+  margin: 8px 0;
+}
+.state-text.error { color: #f87171; }
+
+/* ── Users table ────────────────────────────────────── */
+.users-table-wrap {
+  overflow-x: auto;
+}
+.users-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.users-table thead th {
+  text-align: left;
+  padding: 10px 14px;
+  color: var(--text-secondary);
+  font-weight: 600;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  border-bottom: 1px solid rgba(255, 212, 0, 0.14);
+}
+.users-table tbody td {
+  padding: 14px 14px;
+  color: var(--text-primary);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  vertical-align: middle;
+}
+.users-table tbody tr:last-child td { border-bottom: none; }
+.users-table tbody tr:hover td { background: rgba(255, 212, 0, 0.03); }
+.users-table tbody tr.row-self td { background: rgba(255, 212, 0, 0.04); }
+
+.user-name { font-weight: 600; }
+.cell-email { color: var(--text-secondary); font-size: 13px; }
+.cell-date  { color: var(--text-secondary); font-size: 13px; white-space: nowrap; }
+
+/* ── You badge ───────────────────────────────────────── */
+.you-badge {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 2px 8px;
+  background: rgba(255, 212, 0, 0.12);
+  border: 1px solid rgba(255, 212, 0, 0.32);
+  border-radius: 20px;
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 700;
+  vertical-align: middle;
+}
+
+/* ── Role badge (for self row, read-only) ───────────── */
+.role-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+}
+.role-badge.role-admin  { background: rgba(255,212,0,0.14); border: 1px solid rgba(255,212,0,0.38); color: var(--accent); }
+.role-badge.role-editor { background: rgba(96,165,250,0.12); border: 1px solid rgba(96,165,250,0.32); color: #93c5fd; }
+.role-badge.role-viewer { background: rgba(74,222,128,0.10); border: 1px solid rgba(74,222,128,0.28); color: #86efac; }
+
+/* ── Role select ────────────────────────────────────── */
+.role-select {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255, 212, 0, 0.22);
+  border-radius: 6px;
+  color: var(--text-primary);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 10px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: border-color 0.2s, background 0.2s;
+  outline: none;
+}
+.role-select:hover  { border-color: rgba(255, 212, 0, 0.48); }
+.role-select:focus  { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-muted); }
+.role-select option { background: #0c0e1a; color: #fff; }
+
+/* ── Delete button ──────────────────────────────────── */
+.btn-delete {
+  background: rgba(248, 113, 113, 0.10);
+  border: 1px solid rgba(248, 113, 113, 0.30);
+  color: #f87171;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+  font-family: inherit;
+}
+.btn-delete:hover {
+  background: rgba(248, 113, 113, 0.20);
+  border-color: rgba(248, 113, 113, 0.52);
 }
