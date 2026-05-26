@@ -95,8 +95,10 @@ jobs:
             sudo env PATH=$PATH:/usr/bin pm2 startup systemd -u $USER --hp $HOME 2>/dev/null || true
 
             # --- Nginx ---
+            # Remove default do sites-enabled (wnrtecnologia tem o IP em server_name
+            # e deve ser o unico server block ativo para evitar conflito).
+            sudo rm -f /etc/nginx/sites-enabled/default
             # Injeta location blocks do WnrMidia no config do site principal (wnrtecnologia).
-            # O script limpa injecoes anteriores, reinjeta e valida com nginx -t.
             sudo python3 "$APP_DIR/scripts/nginx_inject.py"
             sudo systemctl reload nginx
 
