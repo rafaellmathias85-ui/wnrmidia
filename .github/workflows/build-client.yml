@@ -1,0 +1,62 @@
+name: Build e Deploy do Cliente Display
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'display-client/**'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Instalar dependências
+        working-directory: display-client
+        run: npm install
+
+      - name: Build instalador Windows
+        working-directory: display-client
+        run: npm run build:win
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Criar diretório downloads no servidor
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.VM_HOST }}
+          username: ${{ secrets.VM_USER }}
+          password: ${{ secrets.VM_PASSWORD }}
+          port: 22
+          script: mkdir -p /var/www/wnrmidia/downloads
+
+      - name: Enviar exe para o servidor
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.VM_HOST }}
+          username: ${{ secrets.VM_USER }}
+          password: ${{ secrets.VM_PASSWORD }}
+          port: 22
+          source: "display-client/dist/WNRMidiaDisplay-Setup.exe"
+          target: "/var/www/wnrmidia/downloads/"
+          strip_components: 2
+
+      - name: Verificar upload
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.VM_HOST }}
+          username: ${{ secrets.VM_USER }}
+          password: ${{ secrets.VM_PASSWORD }}
+          port: 22
+          script: |
+            ls -lh /var/www/wnrmidia/downloads/
+            echo "Exe disponivel em: https://wnrtecnologia.com.br/wnrmidia/downloads/WNRMidiaDisplay-Setup.exe"

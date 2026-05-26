@@ -10,6 +10,7 @@
   "build": {
     "appId": "br.com.wnrtecnologia.wnrmidia.display",
     "productName": "WNR Midia Display",
+    "artifactName": "WNRMidiaDisplay-Setup.exe",
     "copyright": "Copyright © 2025 WNR Tecnologia",
     "directories": { "output": "dist" },
     "files": [

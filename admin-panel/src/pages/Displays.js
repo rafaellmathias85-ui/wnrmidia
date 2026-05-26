@@ -5,10 +5,11 @@ import './Displays.css';
 
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
 
-// Where the pre-built exe will be hosted
-const CLIENT_EXE_URL = (API_URL || '')
-  .replace('/api', '')
-  .replace('/app', '') + '/wnrmidia/downloads/WNRMidiaDisplay-Setup.exe';
+// Strip /app/api from the API URL to get the server base path
+// e.g. https://wnrtecnologia.com.br/wnrmidia/app/api → https://wnrtecnologia.com.br/wnrmidia
+const CLIENT_EXE_URL =
+  (API_URL || '').replace(/\/app\/api\/?$/, '') +
+  '/downloads/WNRMidiaDisplay-Setup.exe';
 
 const Displays = () => {
   const [displays, setDisplays] = useState([]);
@@ -315,10 +316,9 @@ const Displays = () => {
             </div>
 
             <div className="client-info-box">
-              <span>ℹ</span>
-              O instalador precisa ser gerado uma vez pelo desenvolvedor
-              (<code>cd display-client &amp;&amp; npm run build:win</code>) e
-              enviado para o servidor em <code>/var/www/wnrmidia/downloads/</code>.
+              <span>✓</span>
+              O instalador é gerado e publicado automaticamente via GitHub Actions
+              toda vez que o código do cliente é atualizado. Nenhuma ação manual é necessária.
             </div>
 
             <button className="btn-modal-close" onClick={() => setClientModal(null)}>
