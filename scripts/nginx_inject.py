@@ -160,8 +160,8 @@ if not conf_file:
 with open(conf_file) as f:
     original = f.read()
 
-# Backup
-backup_path = conf_file + '.wnrmidia.bak'
+# Backup salvo em /tmp — nao pode ficar em sites-enabled pois nginx carrega tudo de la
+backup_path = os.path.join('/tmp', os.path.basename(conf_file) + '.wnrmidia.bak')
 with open(backup_path, 'w') as f:
     f.write(original)
 print(f"Backup criado: {backup_path}")
