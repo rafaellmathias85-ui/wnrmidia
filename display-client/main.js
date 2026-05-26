@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Tray, Menu, ipcMain, nativeImage, globalShortcut } = require('electron');
+const { app, BrowserWindow, Tray, Menu, ipcMain, nativeImage, globalShortcut, dialog } = require('electron');
 const path = require('path');
 const fs   = require('fs');
 
@@ -119,6 +119,34 @@ ipcMain.handle('launch-player', () => {
 ipcMain.handle('open-setup', () => {
   createSetupWindow();
   return { success: true };
+});
+
+// Import a pre-downloaded display config JSON file
+ipcMain.handle('import-config-file', async () => {
+  const { canceled, filePaths } = await dialog.showOpenDialog({
+    title: 'Importar Configuração do Display',
+    filters: [{ name: 'Configuração WNR Mídia', extensions: ['json'] }],
+    properties: ['openFile'],
+  });
+
+  if (canceled || !filePaths.length) {
+    return { success: false, reason: 'cancelled' };
+  }
+
+  try {
+    const raw    = fs.readFileSync(filePaths[0], 'utf-8');
+    const config = JSON.parse(raw);
+
+    if (!config.displayId || !config.serverUrl) {
+      return { success: false, reason: 'invalid' };
+    }
+
+    saveConfig(config);
+    createPlayerWindow();
+    return { success: true };
+  } catch {
+    return { success: false, reason: 'parse_error' };
+  }
 });
 
 // ─── App lifecycle ────────────────────────────────────────────────────────────

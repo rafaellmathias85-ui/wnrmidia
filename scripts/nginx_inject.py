@@ -43,6 +43,11 @@ LOCATION_BLOCK = """\
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
     }
+    location ^~ /wnrmidia/downloads/ {
+        alias /var/www/wnrmidia/downloads/;
+        add_header Content-Disposition "attachment";
+        add_header Cache-Control "no-store" always;
+    }
     location ^~ /wnrmidia/app/ {
         alias /var/www/wnrmidia/admin-panel/build/;
         add_header Cache-Control "no-store, no-cache, must-revalidate, proxy-revalidate" always;

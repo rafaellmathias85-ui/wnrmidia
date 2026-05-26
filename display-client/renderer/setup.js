@@ -5,6 +5,7 @@ const submitBtn  = document.getElementById('submit-btn');
 const btnText    = document.getElementById('btn-text');
 const btnSpinner = document.getElementById('btn-spinner');
 const errorMsg   = document.getElementById('error-msg');
+const importBtn  = document.getElementById('import-btn');
 
 function showError(msg) {
   errorMsg.textContent = msg;
@@ -18,6 +19,26 @@ function setLoading(v) {
   btnText.style.display    = v ? 'none'   : 'inline';
   btnSpinner.style.display = v ? 'inline' : 'none';
 }
+
+// ── Import config file (one-click setup from admin panel JSON) ──────────────
+importBtn.addEventListener('click', async () => {
+  clearError();
+  importBtn.disabled = true;
+  importBtn.textContent = 'Aguardando seleção...';
+
+  const result = await window.electronAPI.importConfigFile();
+
+  if (result.success) return; // player window will open automatically
+
+  importBtn.disabled = false;
+  importBtn.textContent = '📂 Importar Arquivo de Configuração (.json)';
+
+  if (result.reason === 'cancelled') return;
+  if (result.reason === 'invalid')
+    showError('Arquivo inválido. Certifique-se de usar o arquivo gerado no painel de administração.');
+  else
+    showError('Não foi possível ler o arquivo. Verifique se ele é um JSON válido.');
+});
 
 form.addEventListener('submit', async (e) => {
   e.preventDefault();

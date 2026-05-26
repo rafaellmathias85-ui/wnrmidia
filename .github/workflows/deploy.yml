@@ -75,6 +75,7 @@ jobs:
             grep -v "SECRET\|PASSWORD" .env || true
 
             mkdir -p uploads/videos
+            mkdir -p "$APP_DIR/downloads"
             # Remove rogue empty sqlite files that can be created by wrong path resolution
             rm -f "$APP_DIR/backend/src/wnrmidia.sqlite"
             rm -f "$APP_DIR/wnrmidia.sqlite"

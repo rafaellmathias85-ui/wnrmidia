@@ -5,6 +5,11 @@ import './Displays.css';
 
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
 
+// Where the pre-built exe will be hosted
+const CLIENT_EXE_URL = (API_URL || '')
+  .replace('/api', '')
+  .replace('/app', '') + '/wnrmidia/downloads/WNRMidiaDisplay-Setup.exe';
+
 const Displays = () => {
   const [displays, setDisplays] = useState([]);
   const [playlists, setPlaylists] = useState([]);
@@ -16,6 +21,7 @@ const Displays = () => {
   const [orientation, setOrientation] = useState('landscape');
   const [assignModal, setAssignModal] = useState(null);
   const [selectedPlaylist, setSelectedPlaylist] = useState('');
+  const [clientModal, setClientModal] = useState(null);   // display selected for client download
 
   const token = localStorage.getItem('token');
   const headers = { Authorization: `Bearer ${token}` };
@@ -112,6 +118,26 @@ const Displays = () => {
     }
   };
 
+  // Generate and download the per-display config JSON
+  const downloadConfig = (display) => {
+    const config = {
+      displayId:   display.display_id,
+      serverUrl:   API_URL,
+      displayName: display.name,
+      displayType: display.type,
+      location:    display.location || '',
+      orientation: display.orientation || 'landscape',
+    };
+    const blob = new Blob([JSON.stringify(config, null, 2)], { type: 'application/json' });
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href     = url;
+    a.download = `wnrmidia-display-${display.name.replace(/\s+/g, '-').toLowerCase()}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+    toast.success('Configuração baixada!');
+  };
+
   return (
     <div className="displays-page">
       <h1>Gerenciamento de Displays</h1>
@@ -192,6 +218,9 @@ const Displays = () => {
                   🔄 Alternar Orientação
                 </button>
               )}
+              <button className="btn-download-client" onClick={() => setClientModal(display)}>
+                ⬇ Baixar Cliente
+              </button>
               <button className="btn-delete" onClick={() => handleDelete(display.id)}>
                 Deletar
               </button>
@@ -200,6 +229,7 @@ const Displays = () => {
         )}
       </div>
 
+      {/* ── Assign Playlist Modal ────────────────────────────── */}
       {assignModal && (
         <div className="modal-overlay" onClick={() => setAssignModal(null)}>
           <div className="modal" onClick={(e) => e.stopPropagation()}>
@@ -227,6 +257,73 @@ const Displays = () => {
               </button>
               <button onClick={() => setAssignModal(null)}>Cancelar</button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── Client Download Modal ────────────────────────────── */}
+      {clientModal && (
+        <div className="modal-overlay" onClick={() => setClientModal(null)}>
+          <div className="modal client-modal" onClick={(e) => e.stopPropagation()}>
+            <button className="modal-close" onClick={() => setClientModal(null)}>✕</button>
+            <h2>Instalar Cliente de Display</h2>
+            <p className="modal-display-name">
+              Display: <strong>{clientModal.name}</strong>
+              <span className="modal-display-id">{clientModal.display_id}</span>
+            </p>
+
+            <div className="client-steps">
+              <div className="client-step">
+                <span className="step-num">1</span>
+                <div className="step-body">
+                  <strong>Baixar o instalador</strong>
+                  <p>Instale o aplicativo WNR Mídia Display na máquina hospedeira.</p>
+                  <a
+                    href={CLIENT_EXE_URL}
+                    className="btn-dl-exe"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    ⬇ Baixar Instalador Windows (.exe)
+                  </a>
+                </div>
+              </div>
+
+              <div className="client-step">
+                <span className="step-num">2</span>
+                <div className="step-body">
+                  <strong>Baixar a configuração deste display</strong>
+                  <p>Cada display tem um arquivo único que cria o vínculo com o servidor.</p>
+                  <button className="btn-dl-config" onClick={() => downloadConfig(clientModal)}>
+                    ⬇ Baixar Configuração ({clientModal.name})
+                  </button>
+                </div>
+              </div>
+
+              <div className="client-step">
+                <span className="step-num">3</span>
+                <div className="step-body">
+                  <strong>Instalar e importar a configuração</strong>
+                  <p>
+                    Execute o instalador, abra o app e clique em{' '}
+                    <em>"Importar Arquivo de Configuração"</em>.
+                    Selecione o arquivo <code>.json</code> baixado no passo 2.
+                    O player iniciará automaticamente vinculado a este display.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="client-info-box">
+              <span>ℹ</span>
+              O instalador precisa ser gerado uma vez pelo desenvolvedor
+              (<code>cd display-client &amp;&amp; npm run build:win</code>) e
+              enviado para o servidor em <code>/var/www/wnrmidia/downloads/</code>.
+            </div>
+
+            <button className="btn-modal-close" onClick={() => setClientModal(null)}>
+              Fechar
+            </button>
           </div>
         </div>
       )}
