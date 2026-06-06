@@ -37,6 +37,13 @@ const Dashboard = () => {
         totalPlaylists: playlists.data.length
       });
     } catch (error) {
+      if (error.response?.status === 401) {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        window.location.href = '/wnrmidia/app/';
+        return;
+      }
+
       toast.error('Erro ao carregar estatísticas');
     }
   };
