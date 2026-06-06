@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import { API_URL } from '../config/api';
 import './Videos.css';
 
 const Videos = () => {
@@ -11,7 +12,6 @@ const Videos = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
 
-  const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
   const token = localStorage.getItem('token');
 
   useEffect(() => {

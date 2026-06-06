@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import { API_URL } from '../config/api';
 import './Dashboard.css';
 
 const Dashboard = () => {
@@ -11,7 +12,6 @@ const Dashboard = () => {
     totalPlaylists: 0
   });
 
-  const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
   const token = localStorage.getItem('token');
 
   useEffect(() => {

@@ -1,15 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import { API_URL, DOWNLOADS_BASE_URL } from '../config/api';
 import './Displays.css';
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
-
-// Strip /app/api from the API URL to get the server base path
-// e.g. https://wnrtecnologia.com.br/wnrmidia/app/api → https://wnrtecnologia.com.br/wnrmidia
-const CLIENT_ZIP_URL =
-  (API_URL || '').replace(/\/app\/api\/?$/, '') +
-  '/downloads/WNRMidiaDisplay-Setup.zip';
+const CLIENT_ZIP_URL = `${DOWNLOADS_BASE_URL}/downloads/WNRMidiaDisplay-Setup.zip`;
 
 const Displays = () => {
   const [displays, setDisplays] = useState([]);

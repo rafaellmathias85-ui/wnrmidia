@@ -1,10 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import { API_URL, API_BASE_URL } from '../config/api';
 import './Playlists.css';
-
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
-const API_BASE = API_URL.replace('/api', '');
 
 const Playlists = () => {
   const [playlists, setPlaylists] = useState([]);
@@ -112,7 +110,7 @@ const Playlists = () => {
   const previewUrl = previewVideo
     ? (previewVideo.file_path.startsWith('http')
         ? previewVideo.file_path
-        : `${API_BASE}/${previewVideo.file_path}`)
+        : `${API_BASE_URL}/${previewVideo.file_path}`)
     : null;
 
   const totalDuration = playlistVideos.reduce((s, v) => s + (v.duration_seconds || 0), 0);

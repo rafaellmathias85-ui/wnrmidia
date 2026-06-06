@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { API_URL } from '../config/api';
 import './Settings.css';
-
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
 
 const ROLE_OPTIONS = [
   { value: 'admin',  label: 'Administrador' },
@@ -194,7 +193,7 @@ const Settings = () => {
           </div>
           <div className="settings-section">
             <h2>Configuração de API</h2>
-            <p>URL Base: {process.env.REACT_APP_API_URL || 'http://localhost:5000/api'}</p>
+            <p>URL Base: {API_URL}</p>
           </div>
           <div className="settings-section">
             <h2>Suporte</h2>
