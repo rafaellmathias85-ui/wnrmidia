@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Tray, Menu, ipcMain, nativeImage, globalShortcut, dialog } = require('electron');
+const { app, BrowserWindow, Tray, Menu, ipcMain, nativeImage, globalShortcut, dialog, screen } = require('electron');
 const path = require('path');
 const fs   = require('fs');
 
@@ -105,6 +105,19 @@ function createTray() {
 // ─── IPC handlers ─────────────────────────────────────────────────────────────
 
 ipcMain.handle('get-config', () => loadConfig());
+
+ipcMain.handle('get-screen-info', () => {
+  const bounds = mainWindow ? mainWindow.getBounds() : null;
+  const display = bounds ? screen.getDisplayMatching(bounds) : screen.getPrimaryDisplay();
+
+  return {
+    bounds: display.bounds,
+    size: display.size,
+    workAreaSize: display.workAreaSize,
+    scaleFactor: display.scaleFactor,
+    rotation: display.rotation,
+  };
+});
 
 ipcMain.handle('save-config', (_, config) => {
   saveConfig(config);

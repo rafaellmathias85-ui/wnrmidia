@@ -7,11 +7,21 @@
 </head>
 <body>
 
-  <!-- ── Video player ── -->
-  <video id="video" autoplay muted playsinline></video>
+  <!-- ── Stage (caixa rotacionável — dimensões e rotação via CSS vars) ── -->
+  <div id="stage">
+    <!-- Double-buffer: duas camadas que alternam com crossfade, sem flash preto -->
+    <div class="layer" id="layer-a">
+      <video class="media-video" muted playsinline preload="auto"></video>
+      <img class="media-image" alt="" />
+    </div>
+    <div class="layer" id="layer-b">
+      <video class="media-video" muted playsinline preload="auto"></video>
+      <img class="media-image" alt="" />
+    </div>
+  </div>
 
-  <!-- ── Waiting / error screen ── -->
-  <div id="waiting-screen" class="overlay-screen hidden">
+  <!-- ── Tela de espera / erro ── -->
+  <div id="waiting-screen" class="overlay-screen">
     <div class="overlay-logo">
       <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 24 24"
         fill="none" stroke="#ffd400" stroke-width="1.8"
@@ -21,11 +31,11 @@
         <path d="M3 10h18v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-8Z"/>
       </svg>
     </div>
-    <h2 id="waiting-title">Aguardando conteúdo</h2>
-    <p  id="waiting-msg">Nenhuma playlist atribuída a este display.<br>Acesse o painel de administração para configurar.</p>
+    <h2 id="waiting-title">Sincronizando conteúdo…</h2>
+    <p  id="waiting-msg">Aguarde enquanto o display é configurado.</p>
   </div>
 
-  <!-- ── HUD (bottom bar) ── -->
+  <!-- ── HUD (barra inferior) ── -->
   <div id="hud" class="hud hidden">
     <div class="hud-left">
       <span id="hud-display-name" class="hud-display-name"></span>

@@ -6,21 +6,47 @@ html, body {
   overflow: hidden;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   color: #fff;
+  cursor: none;
 }
 
-/* ── Video ─────────────────────────────────── */
-#video {
+/* ── Stage (caixa rotacionável)
+   player.js injeta --stage-rot, --stage-w, --stage-h via CSS vars.
+   Para telas em retrato: --stage-w=100vh, --stage-h=100vw, --stage-rot=90deg|270deg.
+   Para paisagem normal: 100vw / 100vh / 0deg. ──────────────────────────────── */
+#stage {
   position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%) rotate(var(--stage-rot, 0deg));
+  width:  var(--stage-w, 100vw);
+  height: var(--stage-h, 100vh);
+  background: #000;
+}
+
+/* ── Double-buffer: duas camadas empilhadas, crossfade por opacity ── */
+.layer {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 600ms ease-in-out;
+  background: #000;
+}
+.layer.active { opacity: 1; z-index: 2; }
+
+/* object-fit: contain — preserva proporção com barras pretas (nunca distorce).
+   Trocar para 'cover' no config se preferir preencher cortando as bordas. */
+.media-video,
+.media-image {
+  position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  z-index: 1;
-  transition: opacity 0.5s ease;
+  object-fit: var(--video-fit, contain);
+  object-position: center center;
+  background: #000;
+  display: none;
 }
-#video.fading { opacity: 0; }
 
-/* ── Overlay screens ──────────────────────── */
+/* ── Tela de espera / erro ────────────────────────────────────────── */
 .overlay-screen {
   position: fixed;
   inset: 0;
@@ -63,7 +89,7 @@ html, body {
   line-height: 1.7;
 }
 
-/* ── HUD ──────────────────────────────────── */
+/* ── HUD (barra inferior) ─────────────────────────────────────────── */
 .hud {
   position: fixed;
   bottom: 0;
@@ -75,7 +101,6 @@ html, body {
   justify-content: space-between;
   padding: 10px 22px;
   background: linear-gradient(to top, rgba(0,0,0,0.72), transparent);
-  backdrop-filter: blur(0px);
   font-size: 13px;
   opacity: 0;
   transition: opacity 0.4s;
@@ -98,6 +123,6 @@ html, body {
   font-size: 12px;
   font-weight: 600;
 }
-.status-ok     { color: #4ade80; }
-.status-warn   { color: #fbbf24; }
-.status-error  { color: #f87171; }
+.status-ok    { color: #4ade80; }
+.status-warn  { color: #fbbf24; }
+.status-error { color: #f87171; }
